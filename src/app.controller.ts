@@ -2,13 +2,23 @@
 
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
+import { RedisService } from './redis/redis.service';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly redisService: RedisService,
+  ) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  async getHello(): Promise<string> {
+    const redisClient = this.redisService.getClient();
+
+    // Redis 테스트 쿼리 실행
+    await redisClient.set('testKey', 'Hello Redis');
+    const value = await redisClient.get('testKey');
+
+    return `Value from Redis: ${value}`;
   }
 }

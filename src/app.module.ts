@@ -7,6 +7,7 @@ import { Ticket } from './entity/ticket.entity';
 import { Seat } from './entity/seat.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { RedisModule } from './redis/redis.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AppService } from './app.service';
       }),
       inject: [ConfigService],
     }),
+    RedisModule,
   ],
   controllers: [AppController],
   providers: [AppService],
