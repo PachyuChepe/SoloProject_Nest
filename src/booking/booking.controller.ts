@@ -1,3 +1,5 @@
+// src/booking/booking.controller.ts
+
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { BookingService } from './booking.service';
 import { Booking } from './booking.entity';

@@ -1,3 +1,5 @@
+// src/seat/seat.controller.ts
+
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { SeatService } from './seat.service';
 import { Seat } from './seat.entity';
