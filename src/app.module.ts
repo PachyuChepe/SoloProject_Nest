@@ -1,13 +1,23 @@
+// src/app.module.ts
+
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from './entity/user.entity';
-import { Performance } from './entity/performance.entity';
-import { Ticket } from './entity/ticket.entity';
-import { Seat } from './entity/seat.entity';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { RedisModule } from './redis/redis.module';
+
+import { User } from './user/user.entity';
+import { Booking } from './booking/booking.entity';
+import { Seat } from './seat/seat.entity';
+import { Performance } from './performance/performance.entity';
+
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { PerformanceModule } from './performance/performance.module';
+import { BookingModule } from './booking/booking.module';
+import { SeatModule } from './seat/seat.module';
+
+// import { AppController } from './app.controller';
+// import { AppService } from './app.service';
+import { RedisModule } from './config/redis/redis.module';
 
 @Module({
   imports: [
@@ -23,15 +33,20 @@ import { RedisModule } from './redis/redis.module';
         username: configService.get('DATABASE_USER'),
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
-        entities: [User, Performance, Ticket, Seat],
+        entities: [User, Performance, Booking, Seat],
         synchronize: true,
         logging: true, // DB 로깅 옵션
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UserModule,
+    PerformanceModule,
+    BookingModule,
+    SeatModule,
     RedisModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  // controllers: [AppController],
+  // providers: [AppService],
 })
 export class AppModule {}

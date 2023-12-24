@@ -1,4 +1,5 @@
-// src/entity/performance.entity.ts
+// src/performance/performance.entity.ts
+
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
@@ -23,7 +24,4 @@ export class Performance {
 
   @Column()
   category: string;
-
-  @Column({ nullable: true })
-  image: string;
 }

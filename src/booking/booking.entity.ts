@@ -1,10 +1,11 @@
-// src/entity/ticket.entity.ts
+// src/booking/booking.entity.ts
+
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './user.entity';
-import { Performance } from './performance.entity';
+import { User } from '../user/user.entity';
+import { Performance } from '../performance/performance.entity';
 
 @Entity()
-export class Ticket {
+export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
 
