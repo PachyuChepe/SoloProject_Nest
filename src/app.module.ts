@@ -1,5 +1,4 @@
 // src/app.module.ts
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -34,7 +33,7 @@ import { RedisModule } from './config/redis/redis.module';
         password: configService.get('DATABASE_PASSWORD'),
         database: configService.get('DATABASE_NAME'),
         entities: [User, Performance, Booking, Seat],
-        synchronize: true,
+        synchronize: false, // 서버 시작 시 DB 마이그레이션 ON
         logging: true, // DB 로깅 옵션
       }),
       inject: [ConfigService],

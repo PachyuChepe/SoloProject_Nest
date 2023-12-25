@@ -1,16 +1,17 @@
 // src/auth/auth.controller.ts
-
-import { Controller, Post, Body } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards, Request } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './local-auth.guard';
+import { LoginUserDto } from './dto/login-user.dto';
 
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginDto: any) {
-    return this.authService.login(loginDto);
+  async login(@Body() loginUserDto: LoginUserDto, @Request() req) {
+    // LoginUserDto를 사용하여 요청 본문의 유효성 검사
+    return this.authService.login(req.user); // 수정된 부분
   }
-
-  // API 엔드포인트 작성
 }

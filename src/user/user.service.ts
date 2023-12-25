@@ -1,9 +1,10 @@
 // src/user/user.service.ts
-
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -12,5 +13,27 @@ export class UserService {
     private userRepository: Repository<User>,
   ) {}
 
-  // CRUD & 비즈니스 로직 작성
+  async createUser(createUserDto: CreateUserDto): Promise<User> {
+    const { email, password, nickname } = createUserDto;
+
+    // 이메일 중복 검사
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (existingUser) {
+      throw new ConflictException('이미 가입된 이메일입니다.');
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = this.userRepository.create({
+      email,
+      password: hashedPassword,
+      nickname,
+    });
+    return this.userRepository.save(newUser);
+  }
+
+  async findOne(email: string): Promise<User | undefined> {
+    return this.userRepository.findOne({ where: { email } });
+  }
 }

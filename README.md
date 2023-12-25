@@ -4,6 +4,9 @@
 SoloProject_Nest/
 ├── src/
 │   ├── config/                        # 환경 설정 파일
+│   │   └── redis/
+│   │       ├── redis.module.ts
+│   │       └── redis.service.ts
 │   ├── auth/                          # 인증 모듈
 │   │   ├── dto/                       # 데이터 전송 객체
 │   │   ├── auth.module.ts

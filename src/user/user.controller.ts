@@ -1,12 +1,14 @@
 // src/user/user.controller.ts
-
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 import { UserService } from './user.service';
-import { User } from './user.entity';
 
 @Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-  // API 엔드포인트 작성
+  @Post('register')
+  async register(@Body() createUserDto: CreateUserDto) {
+    return this.userService.createUser(createUserDto);
+  }
 }
