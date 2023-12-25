@@ -12,7 +12,7 @@ import { AuthService } from './auth.service';
 import { UserService } from '../user/user.service';
 import { RedisService } from '../config/redis/redis.service';
 
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guard/local-auth.guard';
 import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 

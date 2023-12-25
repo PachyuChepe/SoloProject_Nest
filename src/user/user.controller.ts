@@ -14,7 +14,7 @@ import { UpdateUserDto } from './dto/update-user.dto'; // 추가
 import { UserService } from './user.service';
 import { RedisService } from '../config/redis/redis.service';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('users')
 export class UserController {

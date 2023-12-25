@@ -8,7 +8,7 @@ import { JwtStrategy } from './strategy/jwt.strategy';
 import { UserModule } from '../user/user.module';
 import { RedisModule } from '../config/redis/redis.module';
 import { LocalStrategy } from './strategy/local.strategy';
-import { LocalAuthGuard } from './local-auth.guard';
+import { LocalAuthGuard } from './guard/local-auth.guard';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
