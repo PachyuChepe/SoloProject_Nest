@@ -21,7 +21,7 @@ POST {{domain}}/users/register
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe1@gmail.com",
+  "email": "pachyuchepe@gmail.com",
   "password": "123qweQWE!",
   "nickname": "일반좁밥",
   "points": 1000000,
@@ -43,39 +43,46 @@ Content-Type: application/json
 # 사용자 정보 조회
 # 이 요청은 현재 로그인된 사용자의 정보를 조회합니다. (인증 토큰 필요)
 GET {{domain}}/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI1NTgxLCJleHAiOjE3MDM1MjYxODF9.8mW2WheEPScKutNFHjpMh8Ni2XMklhHJUktu0NSZ9KI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
 # Content-Type: application/json
 
 ### 
 # 엑세스 토큰 재발급
 # 이 요청은 현재 로그인된 사용자의 엑세스 토큰이 유효한지 검증합니다. (인증 토큰 필요)
 POST {{domain}}/auth/refresh
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI1NTgxLCJleHAiOjE3MDM1MjYxODF9.8mW2WheEPScKutNFHjpMh8Ni2XMklhHJUktu0NSZ9KI
-# Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
+Content-Type: application/json
 
 ### 
 # 사용자 정보 업데이트
 # 이 요청은 사용자 정보를 업데이트합니다. (인증 토큰 필요)
-PUT {{domain}}/user
+PATCH {{domain}}/users/update
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
 
 {
   "currentPassword": "123qweQWE!",
   "newPassword": "123qweQWE!",
-  "name": "파츄체페 업데이트"
+  "nickname": "파츄체페 업데이트1"
 }
 
 ### 
 # 사용자 삭제
 # 이 요청은 현재 로그인된 사용자를 삭제합니다. (인증 토큰 필요)
-DELETE {{domain}}/user
+DELETE {{domain}}/users/delete
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
 
 ### 
 # 로그아웃
 # 이 요청은 사용자 로그아웃을 처리합니다.
-POST {{domain}}/logout
+POST {{domain}}/users/logout
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
+
+
+
+
 
 ### 
 # 인증번호 요청
