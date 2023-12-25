@@ -33,6 +33,7 @@ export class UserService {
     return this.userRepository.save(newUser);
   }
 
+  // 사용자 이메일로 사용자 정보 조회
   async findOne(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email } });
   }

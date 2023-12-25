@@ -26,15 +26,22 @@ export class AuthService {
 
   async login(user: any) {
     console.log('user.id 뜨냐?', user);
-    const payload = { email: user.email, sub: user.userId };
+    const payload = { email: user.email, sub: user.id };
     const accessToken = this.jwtService.sign(payload);
+    console.log(payload, '너도 이렇게 뜨냐?');
     const refreshToken = this.jwtService.sign(payload, { expiresIn: '7d' });
 
     await this.redisService.setRefreshToken(user.email, refreshToken);
 
     return {
       access_token: accessToken,
-      refresh_token: refreshToken,
     };
+  }
+
+  generateAccessToken(user: any) {
+    console.log(user, '오긴하냐?');
+    const payload = { email: user.email, sub: user.id };
+    console.log(payload, '만들어지긴했냐?');
+    return this.jwtService.sign(payload);
   }
 }

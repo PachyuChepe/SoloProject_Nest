@@ -2,34 +2,56 @@
 
 ### 
 # 회원가입
-# 이 요청은 새 사용자를 등록합니다.
+# 이 요청은 새로운 어드민 사용자를 등록합니다.
 POST {{domain}}/users/register
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe12@gmail.com",
+  "email": "pachyuchepe@gmail.com",
   "password": "123qweQWE!",
-  "nickname": "뭘보노",
-  "points": 1000,
-  "isAdmin": false
+  "nickname": "어드민",
+  "points": 0,
+  "isAdmin": true
 }
 
 ### 
+# 회원가입
+# 이 요청은 새로운 일반 사용자를 등록합니다.
+POST {{domain}}/users/register
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe1@gmail.com",
+  "password": "123qweQWE!",
+  "nickname": "일반좁밥",
+  "points": 1000000,
+  "isAdmin": false
+}
+
+###
 # 로그인
 # 이 요청은 사용자 로그인을 처리합니다.
 POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe12@gmail.com",
+  "email": "pachyuchepe@gmail.com",
   "password": "123qweQWE!"
 }
 
-### 
+###
 # 사용자 정보 조회
 # 이 요청은 현재 로그인된 사용자의 정보를 조회합니다. (인증 토큰 필요)
-GET {{domain}}/user
-Content-Type: application/json
+GET {{domain}}/users/profile
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI1NTgxLCJleHAiOjE3MDM1MjYxODF9.8mW2WheEPScKutNFHjpMh8Ni2XMklhHJUktu0NSZ9KI
+# Content-Type: application/json
+
+### 
+# 엑세스 토큰 재발급
+# 이 요청은 현재 로그인된 사용자의 엑세스 토큰이 유효한지 검증합니다. (인증 토큰 필요)
+POST {{domain}}/auth/refresh
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI1NTgxLCJleHAiOjE3MDM1MjYxODF9.8mW2WheEPScKutNFHjpMh8Ni2XMklhHJUktu0NSZ9KI
+# Content-Type: application/json
 
 ### 
 # 사용자 정보 업데이트
