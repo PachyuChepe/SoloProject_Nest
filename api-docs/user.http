@@ -1,8 +1,9 @@
 @domain = https://localhost:4000
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzAzNTU1MDExLCJleHAiOjE3MDM1NTU2MTF9.HIKuF5KagKJUDJUjXmbH2_7uKpkRaYzQh2Vml16FDf0
 
 ### 
 # 회원가입
-# 이 요청은 새로운 어드민 사용자를 등록합니다.
+# 이 요청은 새로운 관리자 사용자를 등록합니다.
 POST {{domain}}/users/register
 Content-Type: application/json
 
@@ -38,8 +39,6 @@ Content-Type: application/json
   "email": "pachyuchepe@gmail.com",
   "password": "123qweQWE!"
 }
-
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzAzNTUxNzMzLCJleHAiOjE3MDM1NTIzMzN9.gRsFtVColg-6EoXNKTVVExKVuY_SwL-xIO0lvFhO468
 
 ###
 # 사용자 정보 조회
@@ -83,7 +82,21 @@ Content-Type: application/json
 Authorization: Bearer {{AccessToken}}
 
 
+### 
+# 공연 생성
+# 이 요청은 관리자 사용자의 공연을 등록합니다.
+POST {{domain}}/performances/create
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
 
+{
+  "name": "새로운 공연",
+  "description": "공연 설명",
+  "location": "서울",
+  "schedule": ["2024-01-01", "2024-01-02"],
+  "price": 50000,
+  "category": "뮤지컬"
+}
 
 
 ### 
