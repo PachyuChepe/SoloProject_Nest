@@ -22,4 +22,7 @@ export class CreatePerformanceDto {
   @IsString()
   @IsOptional()
   category?: string; // 카테고리는 선택 사항
+
+  @IsString()
+  imageUrl?: string;
 }

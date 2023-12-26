@@ -22,6 +22,9 @@ export class Performance {
   @Column()
   price: number; // 공연 가격
 
+  @Column({ type: 'text' })
+  imageUrl: string;
+
   @Column()
   category: string; // 공연 카테고리
 }
