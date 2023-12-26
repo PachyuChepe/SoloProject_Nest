@@ -12,9 +12,14 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   async onModuleInit() {
     this.client = createClient({
       url: `redis://${this.configService.get(
+        'REDIS_USERNAME',
+      )}:${this.configService.get('REDIS_PASSWORD')}@${this.configService.get(
         'REDIS_HOST',
-      )}:${this.configService.get('REDIS_PORT')}`,
-      password: this.configService.get('REDIS_PASSWORD'),
+      )}:${this.configService.get('REDIS_PORT')}/0`,
+      // url: `redis://${this.configService.get(
+      //   'REDIS_HOST',
+      // )}:${this.configService.get('REDIS_PORT')}`,
+      // password: this.configService.get('REDIS_PASSWORD'),
     });
 
     this.client.on('error', (error) => console.error(`Redis Error: ${error}`));
