@@ -1,6 +1,5 @@
 @domain = https://localhost:4000
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlMUBnbWFpbC5jb20iLCJzdWIiOjIsImlhdCI6MTcwMzU1NTA2NCwiZXhwIjoxNzAzNTU1NjY0fQ.4HmzBvLr-Bzlrqc7su6hFVwdl4G7RPOGsDOUMOjq6z8
-
+@AccessToken = {{loginToken.response.body.$.access_token}}
 ### 
 # 회원가입
 # 이 요청은 새로운 관리자 사용자를 등록합니다.
@@ -32,11 +31,12 @@ Content-Type: application/json
 ###
 # 로그인
 # 이 요청은 사용자 로그인을 처리합니다.
+# @name loginToken
 POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe1@gmail.com",
+  "email": "pachyuchepe2@gmail.com",
   "password": "123qweQWE!"
 }
 

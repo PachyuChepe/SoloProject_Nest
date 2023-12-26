@@ -2,6 +2,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 import { User } from './user/user.entity';
 import { Booking } from './booking/booking.entity';
@@ -20,6 +22,9 @@ import { RedisModule } from './config/redis/redis.module';
 
 @Module({
   imports: [
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
     ConfigModule.forRoot({
       isGlobal: true, // 전역적으로 사용하도록 설정
     }),
