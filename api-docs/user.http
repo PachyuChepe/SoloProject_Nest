@@ -1,0 +1,121 @@
+@domain = https://localhost:4000
+@AccessToken = {{loginToken.response.body.$.access_token}}
+### 
+# 회원가입
+# 이 요청은 새로운 관리자 사용자를 등록합니다.
+POST {{domain}}/users/register
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe@gmail.com",
+  "password": "123qweQWE!",
+  "nickname": "어드민",
+  "call": "010-1234-5678",
+  "points": 0,
+  "isAdmin": true
+}
+
+### 
+# 회원가입
+# 이 요청은 새로운 일반 사용자를 등록합니다.
+POST {{domain}}/users/register
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe1@gmail.com",
+  "password": "123qweQWE!",
+  "nickname": "일반좁밥",
+  "call": "010-5678-1234"
+}
+
+###
+# 로그인
+# 이 요청은 사용자 로그인을 처리합니다.
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe2@gmail.com",
+  "password": "123qweQWE!"
+}
+
+###
+# 사용자 정보 조회
+# 이 요청은 현재 로그인된 사용자의 정보를 조회합니다. (인증 토큰 필요)
+GET {{domain}}/users/profile
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+### 
+# 엑세스 토큰 재발급
+# 이 요청은 현재 로그인된 사용자의 엑세스 토큰이 유효한지 검증합니다. (인증 토큰 필요)
+POST {{domain}}/auth/refresh
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 사용자 정보 업데이트
+# 이 요청은 사용자 정보를 업데이트합니다. (인증 토큰 필요)
+PATCH {{domain}}/users/update
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "currentPassword": "123qweQWE!",
+  "newPassword": "123qweQWE!",
+  "nickname": "뭐임마",
+  "call": "010-1234-1234"
+}
+
+### 
+# 사용자 삭제
+# 이 요청은 현재 로그인된 사용자를 삭제합니다. (인증 토큰 필요)
+DELETE {{domain}}/users/delete
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 로그아웃
+# 이 요청은 사용자 로그아웃을 처리합니다.
+POST {{domain}}/users/logout
+Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+
+
+### 
+# 공연 생성
+# 이 요청은 관리자 사용자의 공연을 등록합니다.
+POST {{domain}}/performances/create
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "새로운 공연",
+  "description": "공연 설명",
+  "location": "서울",
+  "schedule": ["2024-01-01", "2024-01-02"],
+  "price": 50000,
+  "category": "뮤지컬"
+}
+
+
+### 
+# 인증번호 요청
+# 이 요청은 이메일 인증번호를 요청합니다.
+POST {{domain}}/request-verify
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe@gmail.com"
+}
+
+### 
+# 인증번호 확인
+# 이 요청은 이메일 인증번호를 확인합니다.
+POST {{domain}}/validate-verify
+Content-Type: application/json
+
+{
+  "email": "pachyuchepe@gmail.com",
+  "verifyCode": "123456"
+}
