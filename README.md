@@ -43,3 +43,15 @@ SoloProject_Nest/
 ├── .env                               # 환경 변수 파일
 └── package.json
 ```
+
+<br><br><br>
+
+### API 명세서
+
+<br><br><br>
+
+### ERD cloud
+
+[![erd Label](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FkPLBX%2FbtsCK9Y5htv%2Fv8wkTYUAP8wC4ksqpMjFkk%2Fimg.png)](https://www.erdcloud.com/d/XM3YguKYdCzXNBdQz)
+
+<br><br><br>
