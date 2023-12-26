@@ -10,11 +10,11 @@ export class Booking {
   id: number;
 
   @ManyToOne(() => User)
-  user: User;
+  user: User; // 예약을 한 사용자
 
   @ManyToOne(() => Performance)
-  performance: Performance;
+  performance: Performance; // 예약된 공연
 
   @Column()
-  date: Date;
+  date: Date; // 예약 날짜
 }

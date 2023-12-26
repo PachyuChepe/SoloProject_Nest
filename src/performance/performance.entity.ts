@@ -8,20 +8,20 @@ export class Performance {
   id: number;
 
   @Column()
-  name: string;
+  name: string; // 공연 이름
 
   @Column()
-  description: string;
+  description: string; // 공연 설명
 
   @Column()
-  location: string;
+  location: string; // 공연 장소
 
   @Column('simple-array')
-  schedule: string[];
+  schedule: string[]; // 공연 일정, 여러 날짜를 배열로 저장
 
   @Column()
-  price: number;
+  price: number; // 공연 가격
 
   @Column()
-  category: string;
+  category: string; // 공연 카테고리
 }

@@ -9,17 +9,17 @@ export class Seat {
   id: number;
 
   @ManyToOne(() => Performance)
-  performance: Performance;
+  performance: Performance; // 좌석이 속한 공연
 
   @Column()
-  seatNumber: number;
+  seatNumber: number; // 좌석 번호
 
   @Column()
-  grade: string;
+  grade: string; // 좌석 등급 (예: A, B, VIP 등)
 
   @Column()
-  price: number;
+  price: number; // 좌석 가격
 
   @Column({ default: false })
-  isBooked: boolean;
+  isBooked: boolean; // 좌석 예약 여부, 기본값 false
 }
