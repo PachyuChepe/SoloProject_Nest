@@ -14,4 +14,8 @@ export class UpdateUserDto {
   @IsString()
   @IsOptional() // 선택적 필드로 설정
   nickname?: string;
+
+  @IsString()
+  @IsOptional()
+  call?: string;
 }

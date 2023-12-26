@@ -10,6 +10,7 @@ Content-Type: application/json
   "email": "pachyuchepe@gmail.com",
   "password": "123qweQWE!",
   "nickname": "어드민",
+  "call": "010-1234-5678",
   "points": 0,
   "isAdmin": true
 }
@@ -21,11 +22,10 @@ POST {{domain}}/users/register
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe@gmail.com",
+  "email": "pachyuchepe1@gmail.com",
   "password": "123qweQWE!",
   "nickname": "일반좁밥",
-  "points": 1000000,
-  "isAdmin": false
+  "call": "010-5678-1234"
 }
 
 ###
@@ -39,31 +39,33 @@ Content-Type: application/json
   "password": "123qweQWE!"
 }
 
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzAzNTUxNzMzLCJleHAiOjE3MDM1NTIzMzN9.gRsFtVColg-6EoXNKTVVExKVuY_SwL-xIO0lvFhO468
+
 ###
 # 사용자 정보 조회
 # 이 요청은 현재 로그인된 사용자의 정보를 조회합니다. (인증 토큰 필요)
 GET {{domain}}/users/profile
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
-# Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
 
 ### 
 # 엑세스 토큰 재발급
 # 이 요청은 현재 로그인된 사용자의 엑세스 토큰이 유효한지 검증합니다. (인증 토큰 필요)
 POST {{domain}}/auth/refresh
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
-Content-Type: application/json
+Authorization: Bearer {{AccessToken}}
 
 ### 
 # 사용자 정보 업데이트
 # 이 요청은 사용자 정보를 업데이트합니다. (인증 토큰 필요)
 PATCH {{domain}}/users/update
+Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
 
 {
   "currentPassword": "123qweQWE!",
   "newPassword": "123qweQWE!",
-  "nickname": "파츄체페 업데이트1"
+  "nickname": "파츄체페 업데이트1",
+  "call": "010-1234-1234"
 }
 
 ### 
@@ -71,14 +73,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5d
 # 이 요청은 현재 로그인된 사용자를 삭제합니다. (인증 토큰 필요)
 DELETE {{domain}}/users/delete
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
+Authorization: Bearer {{AccessToken}}
 
 ### 
 # 로그아웃
 # 이 요청은 사용자 로그아웃을 처리합니다.
 POST {{domain}}/users/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MiwiaWF0IjoxNzAzNTI5MzUxLCJleHAiOjE3MDM1Mjk5NTF9.jK4SND6w2vZhibnSyRZXmDo3yAR-TTeYODb8Un3iyR8
+Authorization: Bearer {{AccessToken}}
 
 
 

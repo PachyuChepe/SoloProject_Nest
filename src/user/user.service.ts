@@ -18,7 +18,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, nickname } = createUserDto;
+    const { email, password, nickname, call, points, isAdmin } = createUserDto;
 
     // 이메일 중복 검사
     const existingUser = await this.userRepository.findOne({
@@ -33,6 +33,9 @@ export class UserService {
       email,
       password: hashedPassword,
       nickname,
+      call,
+      points: points !== undefined ? points : 1000000, // points가 undefined일 경우에만 기본값 사용
+      isAdmin: isAdmin || false, // isAdmin이 제공되지 않으면 기본값 false 사용
     });
     return this.userRepository.save(newUser);
   }
@@ -48,6 +51,7 @@ export class UserService {
       currentPassword?: string;
       newPassword?: string;
       nickname?: string;
+      call?: string;
     },
   ): Promise<User> {
     const user = await this.userRepository.findOne({ where: { email } });
@@ -77,6 +81,11 @@ export class UserService {
     // 닉네임 업데이트
     if (updateData.nickname) {
       user.nickname = updateData.nickname;
+    }
+
+    // 전화번호 업데이트
+    if (updateData.call) {
+      user.call = updateData.call;
     }
 
     return this.userRepository.save(user);
