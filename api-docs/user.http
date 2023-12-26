@@ -1,5 +1,5 @@
 @domain = https://localhost:4000
-@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlQGdtYWlsLmNvbSIsInN1YiI6MSwiaWF0IjoxNzAzNTU1MDExLCJleHAiOjE3MDM1NTU2MTF9.HIKuF5KagKJUDJUjXmbH2_7uKpkRaYzQh2Vml16FDf0
+@AccessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBhY2h5dWNoZXBlMUBnbWFpbC5jb20iLCJzdWIiOjIsImlhdCI6MTcwMzU1NTA2NCwiZXhwIjoxNzAzNTU1NjY0fQ.4HmzBvLr-Bzlrqc7su6hFVwdl4G7RPOGsDOUMOjq6z8
 
 ### 
 # 회원가입
@@ -36,7 +36,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "pachyuchepe@gmail.com",
+  "email": "pachyuchepe1@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -63,7 +63,7 @@ Content-Type: application/json
 {
   "currentPassword": "123qweQWE!",
   "newPassword": "123qweQWE!",
-  "nickname": "파츄체페 업데이트1",
+  "nickname": "뭐임마",
   "call": "010-1234-1234"
 }
 
