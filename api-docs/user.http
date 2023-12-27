@@ -73,6 +73,7 @@ Authorization: Bearer {{AccessToken}}
 
 ### 
 # 엑세스 토큰 재발급
+# @name loginToken
 POST {{domain}}/auth/refresh
 Authorization: Bearer {{AccessToken}}
 
