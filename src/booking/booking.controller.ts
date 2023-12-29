@@ -35,6 +35,4 @@ export class BookingController {
     await this.bookingService.cancelBooking(bookingId, req.user.id);
     return { message: '예매가 취소되었습니다.' };
   }
-
-  // 기타 엔드포인트들...
 }

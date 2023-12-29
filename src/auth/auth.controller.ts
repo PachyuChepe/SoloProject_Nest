@@ -28,7 +28,7 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginUserDto: LoginUserDto, @Request() req) {
     // LoginUserDto를 사용하여 요청 본문의 유효성 검사
-    return this.authService.login(req.user); // 수정된 부분
+    return this.authService.login(req.user);
   }
 
   @UseGuards(AuthGuard('jwt'))

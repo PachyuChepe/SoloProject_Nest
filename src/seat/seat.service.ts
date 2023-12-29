@@ -58,6 +58,4 @@ export class SeatService {
 
     return this.seatRepository.save(seats);
   }
-
-  // CRUD & 비즈니스 로직 작성
 }

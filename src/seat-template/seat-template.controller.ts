@@ -28,6 +28,4 @@ export class SeatTemplateController {
 
     return this.seatTemplateService.createSeatTemplate(createSeatTemplateDto);
   }
-
-  // 기타 엔드포인트들...
 }

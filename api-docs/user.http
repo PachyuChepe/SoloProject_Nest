@@ -79,6 +79,7 @@ Authorization: Bearer {{AccessToken}}
 
 
 
+
 ### 
 # 공연 생성
 POST {{domain}}/performances/create
@@ -90,12 +91,14 @@ Content-Type: application/json
   "description": "손이 시려워 꽁",
   "location": "감자국",
   "schedule": [
-    { "date": "2024-01-01", "time": "09:00" },
-    { "date": "2024-01-02", "time": "09:00" }
+    { "date": "2023-12-29", "time": "05:00" },
+    { "date": "2023-12-30", "time": "04:13" },
+    { "date": "2023-12-31", "time": "05:00" }
   ],
   "price": 50000,
   "category": "영화",
-  "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png"
+  "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png",
+  "seatTemplateId": 1
 }
 
 ### 
@@ -107,6 +110,17 @@ Content-Type: application/json
 # 공연 상세 조회
 GET {{domain}}/performances/1
 Content-Type: application/json
+
+### 
+# 공연 상세 조회 (예매가능유무)
+GET {{domain}}/performances/1/detail
+Content-Type: application/json
+
+###
+# 공연 검색
+GET {{domain}}/performances/show/search?title=th%20%20%20++e&category=영화
+Content-Type: application/json
+
 
 ### 
 # 공연 정보 수정
@@ -124,7 +138,8 @@ Content-Type: application/json
   ],
   "price": 50000,
   "category": "영화",
-  "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png"
+  "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png",
+  "seatTemplateId": 1
 }
 
 ### 
@@ -142,12 +157,12 @@ Content-Type: application/json
 {
   "name": "Custom Template",
   "configuration": [
-    { "grade": "VIP", "seatCount": 5, "price": 10000 },
-    { "grade": "VVIP", "seatCount": 3, "price": 15000 },
+    { "grade": "VIP", "seatCount": 1, "price": 10000 },
+    { "grade": "VVIP", "seatCount": 1, "price": 15000 },
     { "grade": "VVVIP", "seatCount": 1, "price": 20000 },
-    { "grade": "A", "seatCount": 10, "price": 5000 },
-    { "grade": "B", "seatCount": 15, "price": 2500 },
-    { "grade": "C", "seatCount": 20, "price": 2000 }
+    { "grade": "A", "seatCount": 1, "price": 5000 },
+    { "grade": "B", "seatCount": 1, "price": 2500 },
+    { "grade": "C", "seatCount": 1, "price": 2000 }
   ]
 }
 
@@ -166,6 +181,8 @@ Content-Type: application/json
 
 {
   "performanceId": 1,
+  "date": "2023-12-29",
+  "time": "05:00",
   "seatNumbers": [1, 2, 3]
 }
 
@@ -176,7 +193,7 @@ Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 취소
-DELETE {{domain}}/bookings/3/cancel
+DELETE {{domain}}/bookings/1/cancel
 Authorization: Bearer {{AccessToken}}
 
 

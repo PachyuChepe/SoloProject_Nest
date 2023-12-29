@@ -43,4 +43,8 @@ export class UpdatePerformanceDto {
   @IsString()
   @IsOptional()
   imageUrl?: string;
+
+  @IsNumber()
+  @IsOptional()
+  seatTemplateId?: number;
 }
