@@ -1,12 +1,34 @@
 // src/seat/seat.controller.ts
 
-import { Controller, Get, Post, Body, Param } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Param,
+  UseGuards,
+  UnauthorizedException,
+  Req,
+} from '@nestjs/common';
 import { SeatService } from './seat.service';
-import { Seat } from './seat.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('seats')
 export class SeatController {
   constructor(private seatService: SeatService) {}
+
+  @Post('/create-from-template/performance/:performanceId/template/:templateId')
+  @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
+  async createSeatsFromTemplate(
+    @Param('performanceId') performanceId: number,
+    @Param('templateId') templateId: number,
+    @Req() req,
+  ) {
+    if (!req.user.isAdmin) {
+      throw new UnauthorizedException('관리자 권한이 필요합니다.');
+    }
+
+    return this.seatService.createSeatsFromTemplate(performanceId, templateId);
+  }
 
   //API 엔드포인트 작성
 }

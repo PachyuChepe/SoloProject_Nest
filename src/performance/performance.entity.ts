@@ -1,6 +1,8 @@
 // src/performance/performance.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+// import { Venue } from '../venue/venue.entity';
+import { SeatTemplate } from '../seat-template/seat-template.entity';
 
 @Entity()
 export class Performance {
@@ -8,20 +10,31 @@ export class Performance {
   id: number;
 
   @Column()
-  name: string; // 공연 이름
+  name: string;
 
   @Column()
-  description: string; // 공연 설명
+  description: string;
 
   @Column()
-  location: string; // 공연 장소
+  location: string;
 
-  @Column('simple-array')
-  schedule: string[]; // 공연 일정, 여러 날짜를 배열로 저장
-
-  @Column()
-  price: number; // 공연 가격
+  @Column({ type: 'json' }) // JSON 타입으로 변경
+  schedule: ScheduleDto[];
 
   @Column()
-  category: string; // 공연 카테고리
+  price: number;
+
+  @Column({ type: 'text' })
+  imageUrl: string;
+
+  @Column()
+  category: string;
+
+  @ManyToOne(() => SeatTemplate)
+  seatTemplate: SeatTemplate;
+}
+
+class ScheduleDto {
+  date: string;
+  time: string;
 }

@@ -1,11 +1,9 @@
-// src/performance/dto/create-performance.dto.ts
-
 import {
+  IsString,
   IsArray,
   IsNumber,
-  IsObject,
   IsOptional,
-  IsString,
+  IsObject,
 } from 'class-validator';
 
 class ScheduleDto {
@@ -16,27 +14,33 @@ class ScheduleDto {
   time: string;
 }
 
-export class CreatePerformanceDto {
+export class UpdatePerformanceDto {
   @IsString()
-  name: string;
+  @IsOptional()
+  name?: string;
 
   @IsString()
-  description: string;
+  @IsOptional()
+  description?: string;
 
   @IsString()
-  location: string;
+  @IsOptional()
+  location?: string;
 
   @IsArray()
+  @IsOptional()
   @IsObject({ each: true })
-  schedule: ScheduleDto[];
+  schedule?: ScheduleDto[];
 
   @IsNumber()
-  price: number;
+  @IsOptional()
+  price?: number;
 
   @IsString()
   @IsOptional()
   category?: string;
 
   @IsString()
+  @IsOptional()
   imageUrl?: string;
 }

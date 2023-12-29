@@ -35,14 +35,14 @@ export class AuthController {
   @Post('refresh')
   async refreshAccessToken(@Req() req) {
     const user = req.user;
-    const currentTime = Math.floor(Date.now() / 1000);
+    // const currentTime = Math.floor(Date.now() / 1000);
 
     // 토큰이 만료되었는지 확인
-    if (!user.exp || user.exp > currentTime) {
-      throw new UnauthorizedException(
-        '엑세스 토큰이 아직 만료되지 않았습니다.',
-      );
-    }
+    // if (!user.exp || user.exp > currentTime) {
+    //   throw new UnauthorizedException(
+    //     '엑세스 토큰이 아직 만료되지 않았습니다.',
+    //   );
+    // }
 
     const refreshToken = await this.redisService.getRefreshToken(user.email);
     if (!refreshToken) {
