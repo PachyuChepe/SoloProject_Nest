@@ -7,6 +7,7 @@ import { Seat } from 'src/seat/seat.entity';
 import { SeatTemplate } from '../seat-template/seat-template.entity';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
+import { SearchPerformanceDto } from './dto/search-performance.dto';
 
 @Injectable()
 export class PerformanceService {
@@ -67,6 +68,30 @@ export class PerformanceService {
     const isAvailable = availableSeats > 0;
 
     return { ...performance, availableSeats, isAvailable };
+  }
+
+  async searchPerformances(
+    searchParams: SearchPerformanceDto,
+  ): Promise<Performance[]> {
+    const query = this.performanceRepository.createQueryBuilder('performance');
+
+    if (searchParams.title) {
+      const formattedTitle = `%${searchParams.title.replace(/\s+/g, ' ')}%`; // 모든 연속된 공백을 하나의 공백으로 변환
+      query.andWhere(
+        "REPLACE(performance.name, ' ', '') LIKE REPLACE(:title, ' ', '')",
+        {
+          title: formattedTitle,
+        },
+      );
+    }
+
+    if (searchParams.category && searchParams.category !== '전체') {
+      query.andWhere('performance.category = :category', {
+        category: searchParams.category,
+      });
+    }
+
+    return query.getMany();
   }
 
   async updatePerformance(

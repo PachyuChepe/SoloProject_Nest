@@ -79,6 +79,7 @@ Authorization: Bearer {{AccessToken}}
 
 
 
+
 ### 
 # 공연 생성
 POST {{domain}}/performances/create
@@ -113,6 +114,12 @@ Content-Type: application/json
 # 공연 상세 조회 (예매가능유무)
 GET {{domain}}/performances/1/detail
 Content-Type: application/json
+
+###
+# 공연 검색
+GET {{domain}}/performances/show/search?title=th%20%20%20++e&category=영화
+Content-Type: application/json
+
 
 ### 
 # 공연 정보 수정

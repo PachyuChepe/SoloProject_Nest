@@ -10,10 +10,12 @@ import {
   Param,
   Patch,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { PerformanceService } from './performance.service';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
+import { SearchPerformanceDto } from './dto/search-performance.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
@@ -41,12 +43,19 @@ export class PerformanceController {
 
   @Get(':id')
   async getPerformanceById(@Param('id') id: number) {
+    console.log('아니 진짜 니가 검색으로 동작한다고?');
     return this.performanceService.findPerformanceById(id);
   }
 
   @Get(':id/detail')
   async getPerformanceDetails(@Param('id') id: number) {
     return this.performanceService.getPerformanceDetails(id);
+  }
+
+  @Get('show/search')
+  async searchPerformances(@Query() searchParams: SearchPerformanceDto) {
+    console.log('검색 파라미터:', searchParams);
+    return this.performanceService.searchPerformances(searchParams);
   }
 
   @Patch(':id')
