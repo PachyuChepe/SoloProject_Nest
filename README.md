@@ -97,8 +97,8 @@ SoloProject_Nest/
 
 <br><br><br>
 
-### ERD cloud
+### ERD Cloud
 
-[![erd Label](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FkPLBX%2FbtsCK9Y5htv%2Fv8wkTYUAP8wC4ksqpMjFkk%2Fimg.png)](https://www.erdcloud.com/d/XM3YguKYdCzXNBdQz)
+[![erd Label](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FcFMzOe%2FbtsCSz4V7Xh%2FOjD2osotOXOOzejGxZNLbk%2Fimg.png)](https://www.erdcloud.com/d/XM3YguKYdCzXNBdQz)
 
 <br><br><br>
