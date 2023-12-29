@@ -44,6 +44,11 @@ export class PerformanceController {
     return this.performanceService.findPerformanceById(id);
   }
 
+  @Get(':id/detail')
+  async getPerformanceDetails(@Param('id') id: number) {
+    return this.performanceService.getPerformanceDetails(id);
+  }
+
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async updatePerformance(

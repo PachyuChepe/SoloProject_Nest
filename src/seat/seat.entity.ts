@@ -2,6 +2,7 @@
 
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Performance } from '../performance/performance.entity';
+import { Booking } from 'src/booking/booking.entity';
 
 @Entity()
 export class Seat {
@@ -10,6 +11,9 @@ export class Seat {
 
   @ManyToOne(() => Performance)
   performance: Performance; // 좌석이 속한 공연
+
+  @ManyToOne(() => Booking, (booking) => booking.seats)
+  booking: Booking;
 
   @Column()
   seatNumber: number; // 좌석 번호

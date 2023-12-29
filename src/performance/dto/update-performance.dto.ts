@@ -1,5 +1,18 @@
-// src/performance/dto/update-performance.dto.ts
-import { IsString, IsArray, IsNumber, IsOptional } from 'class-validator';
+import {
+  IsString,
+  IsArray,
+  IsNumber,
+  IsOptional,
+  IsObject,
+} from 'class-validator';
+
+class ScheduleDto {
+  @IsString()
+  date: string;
+
+  @IsString()
+  time: string;
+}
 
 export class UpdatePerformanceDto {
   @IsString()
@@ -15,9 +28,9 @@ export class UpdatePerformanceDto {
   location?: string;
 
   @IsArray()
-  @IsString({ each: true })
   @IsOptional()
-  schedule?: string[];
+  @IsObject({ each: true })
+  schedule?: ScheduleDto[];
 
   @IsNumber()
   @IsOptional()

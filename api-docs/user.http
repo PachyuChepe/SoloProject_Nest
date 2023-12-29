@@ -72,7 +72,7 @@ Content-Type: application/json
 Authorization: Bearer {{AccessToken}}
 
 ### 
-# 엑세스 토큰 재발급
+# 엑세스 토큰 재발급 (로그인 시간 연장)
 # @name loginToken
 POST {{domain}}/auth/refresh
 Authorization: Bearer {{AccessToken}}
@@ -86,10 +86,13 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "The Day After Tomorrow1",
+  "name": "The Day After Tomorrow100",
   "description": "손이 시려워 꽁",
   "location": "감자국",
-  "schedule": ["2024-01-01 09:00", "2024-01-02 09:00"],
+  "schedule": [
+    { "date": "2024-01-01", "time": "09:00" },
+    { "date": "2024-01-02", "time": "09:00" }
+  ],
   "price": 50000,
   "category": "영화",
   "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png"
@@ -115,7 +118,10 @@ Content-Type: application/json
   "name": "The Day After Tomorrow100",
   "description": "손이 시려워 꽁",
   "location": "감자국1",
-  "schedule": ["2024-01-01 09:00", "2024-01-02 09:00"],
+  "schedule": [
+    { "date": "2024-01-01", "time": "09:30" },
+    { "date": "2024-01-02", "time": "09:00" }
+  ],
   "price": 50000,
   "category": "영화",
   "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png"
@@ -151,6 +157,27 @@ POST {{domain}}/seats/create-from-template/performance/1/template/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
+
+### 
+# 예약 생성
+POST {{domain}}/bookings
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "performanceId": 1,
+  "seatNumbers": [1, 2, 3]
+}
+
+### 
+# 사용자의 예약 조회
+GET {{domain}}/bookings/my-bookings
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 예약 취소
+DELETE {{domain}}/bookings/3/cancel
+Authorization: Bearer {{AccessToken}}
 
 
 ### 

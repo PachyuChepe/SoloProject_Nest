@@ -1,6 +1,12 @@
 // src/booking/booking.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../user/user.entity';
 import { Performance } from '../performance/performance.entity';
 import { Seat } from 'src/seat/seat.entity';
@@ -16,8 +22,8 @@ export class Booking {
   @ManyToOne(() => Performance)
   performance: Performance; // 예약된 공연
 
-  @ManyToOne(() => Seat)
-  seat: Seat; // 예약된 좌석
+  @OneToMany(() => Seat, (seat) => seat.booking)
+  seats: Seat[];
 
   @Column()
   date: Date; // 예약 날짜
