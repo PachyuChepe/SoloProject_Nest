@@ -10,7 +10,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto'; // 추가
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 import { RedisService } from '../config/redis/redis.service';
 import { AuthGuard } from '@nestjs/passport';
@@ -42,13 +42,13 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  @Patch('update') // HTTP PATCH 메서드 사용
+  @Patch('update')
   async updateUser(@Request() req, @Body() updateData: UpdateUserDto) {
     return this.userService.updateUser(req.user.email, updateData);
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  @Delete('delete') // HTTP DELETE 메서드 사용
+  @Delete('delete')
   async deleteUser(@Request() req) {
     await this.userService.deleteUser(req.user.email);
     await this.redisService.removeRefreshToken(req.user.email); // 리프레시 토큰 제거

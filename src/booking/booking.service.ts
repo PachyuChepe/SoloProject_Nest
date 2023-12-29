@@ -126,7 +126,7 @@ export class BookingService {
         id: booking.performance.id,
         name: booking.performance.name,
         description: booking.performance.description,
-        date: booking.performance.schedule, // 공연 일정
+        date: booking.performance.schedule,
         price: booking.performance.price,
       },
       seats: booking.seats.map((seat) => ({
@@ -175,7 +175,7 @@ export class BookingService {
     // 좌석 예약 상태 해제 및 bookingId 제거
     booking.seats.forEach((seat) => {
       seat.isBooked = false;
-      seat.booking = null; // 이 부분을 추가
+      seat.booking = null;
     });
     await this.seatRepository.save(booking.seats);
 
@@ -189,6 +189,4 @@ export class BookingService {
     // 예매 내역 삭제
     await this.bookingRepository.remove(booking);
   }
-
-  // 다른 메서드들...
 }

@@ -29,6 +29,4 @@ export class SeatController {
 
     return this.seatService.createSeatsFromTemplate(performanceId, templateId);
   }
-
-  //API 엔드포인트 작성
 }

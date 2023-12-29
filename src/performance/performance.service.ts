@@ -128,6 +128,4 @@ export class PerformanceService {
       throw new NotFoundException(`ID ${id}의 공연을 찾을 수 없습니다.`);
     }
   }
-
-  // 기타 필요한 메서드들...
 }

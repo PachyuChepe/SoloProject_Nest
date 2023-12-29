@@ -84,6 +84,4 @@ export class PerformanceController {
     await this.performanceService.deletePerformance(id);
     return { message: `ID ${id}의 공연이 성공적으로 삭제되었습니다.` };
   }
-
-  // 기타 엔드포인트들...
 }
