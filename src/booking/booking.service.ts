@@ -43,6 +43,28 @@ export class BookingService {
           throw new NotFoundException('공연을 찾을 수 없습니다.');
         }
 
+        const currentDate = new Date();
+        const reservationDate = new Date(
+          createBookingDto.date + ' ' + createBookingDto.time,
+        );
+
+        // 입력된 예약 날짜와 시간이 공연 일정 중 하나와 일치하는지 확인
+        const isScheduleMatched = performance.schedule.some((scheduleItem) => {
+          const scheduleDate = new Date(
+            scheduleItem.date + ' ' + scheduleItem.time,
+          );
+          return scheduleDate.getTime() === reservationDate.getTime();
+        });
+
+        if (!isScheduleMatched) {
+          throw new ConflictException('예약할 수 없는 날짜 또는 시간입니다.');
+        }
+
+        // 공연 시작 시간이 현재 시간보다 이전인 경우 예약 불가
+        if (reservationDate < currentDate) {
+          throw new ConflictException('이미 공연이 종료되었습니다.');
+        }
+
         let totalCost = performance.price;
         const selectedSeats = [];
 
@@ -127,6 +149,27 @@ export class BookingService {
 
     if (!booking) {
       throw new NotFoundException('예매 내역을 찾을 수 없습니다.');
+    }
+
+    // 공연 시작 시간 가져오기
+    const performanceStartTime = new Date(
+      booking.performance.schedule[0].date +
+        ' ' +
+        booking.performance.schedule[0].time,
+    );
+
+    // 현재 시간 가져오기
+    const currentTime = new Date();
+
+    // 3시간 이내인지 확인
+    const timeDiffInHours =
+      (performanceStartTime.getTime() - currentTime.getTime()) /
+      (1000 * 60 * 60);
+
+    if (timeDiffInHours < 3) {
+      throw new ConflictException(
+        '공연 시작 3시간 이내에는 예약을 취소할 수 없습니다.',
+      );
     }
 
     // 좌석 예약 상태 해제 및 bookingId 제거
