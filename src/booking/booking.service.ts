@@ -29,55 +29,64 @@ export class BookingService {
     createBookingDto: CreateBookingDto,
     user: User,
   ): Promise<Booking> {
-    const performance = await this.performanceRepository.findOne({
-      where: { id: createBookingDto.performanceId },
-    });
-    if (!performance) {
-      throw new NotFoundException('공연을 찾을 수 없습니다.');
-    }
-
-    let totalCost = performance.price;
-    const selectedSeats = [];
-
-    if (
-      createBookingDto.seatNumbers &&
-      createBookingDto.seatNumbers.length > 0
-    ) {
-      for (const seatNumber of createBookingDto.seatNumbers) {
-        const seat = await this.seatRepository.findOne({
-          where: {
-            performance: { id: performance.id },
-            seatNumber,
-            isBooked: false,
+    return await this.bookingRepository.manager.transaction(
+      async (transactionalEntityManager) => {
+        const performance = await transactionalEntityManager.findOne(
+          Performance,
+          {
+            where: {
+              id: createBookingDto.performanceId,
+            },
           },
-        });
-        if (!seat) {
-          throw new ConflictException(
-            `좌석 번호 ${seatNumber}는 예매할 수 없습니다.`,
-          );
+        );
+        if (!performance) {
+          throw new NotFoundException('공연을 찾을 수 없습니다.');
         }
-        seat.isBooked = true;
-        selectedSeats.push(seat);
-        totalCost += seat.price;
-      }
-    }
 
-    if (user.points < totalCost) {
-      throw new ConflictException('포인트가 부족합니다.');
-    }
+        let totalCost = performance.price;
+        const selectedSeats = [];
 
-    user.points -= totalCost;
-    await this.userRepository.save(user);
+        if (
+          createBookingDto.seatNumbers &&
+          createBookingDto.seatNumbers.length > 0
+        ) {
+          for (const seatNumber of createBookingDto.seatNumbers) {
+            const seat = await transactionalEntityManager.findOne(Seat, {
+              where: {
+                performance: { id: performance.id },
+                seatNumber,
+                isBooked: false,
+              },
+            });
+            if (!seat) {
+              throw new ConflictException(
+                `좌석 번호 ${seatNumber}는 예매할 수 없습니다.`,
+              );
+            }
+            seat.isBooked = true;
+            selectedSeats.push(seat);
+            totalCost += seat.price;
+          }
+        }
 
-    const booking = this.bookingRepository.create({
-      user,
-      performance,
-      seats: selectedSeats,
-      date: new Date(),
-    });
+        if (user.points < totalCost) {
+          throw new ConflictException('포인트가 부족합니다.');
+        }
 
-    await this.seatRepository.save(selectedSeats);
-    return this.bookingRepository.save(booking);
+        user.points -= totalCost;
+        await transactionalEntityManager.save(User, user);
+        await transactionalEntityManager.save(Seat, selectedSeats);
+
+        const booking = transactionalEntityManager.create(Booking, {
+          user,
+          performance,
+          seats: selectedSeats,
+          date: new Date(),
+        });
+
+        return await transactionalEntityManager.save(Booking, booking);
+      },
+    );
   }
 
   async getUserBookingsWithDetails(userId: number): Promise<any[]> {
