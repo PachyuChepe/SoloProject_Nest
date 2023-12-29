@@ -84,6 +84,9 @@ export class BookingService {
     const bookings = await this.bookingRepository.find({
       where: { user: { id: userId } },
       relations: ['performance', 'seats'],
+      order: {
+        date: 'DESC', // 예약 날짜 기준 내림차순 정렬
+      },
     });
 
     return bookings.map((booking) => ({
