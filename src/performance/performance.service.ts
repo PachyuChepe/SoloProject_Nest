@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Performance } from './performance.entity';
 import { Seat } from 'src/seat/seat.entity';
+import { SeatTemplate } from '../seat-template/seat-template.entity';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
 
@@ -12,15 +13,30 @@ export class PerformanceService {
   constructor(
     @InjectRepository(Performance)
     private performanceRepository: Repository<Performance>,
-    @InjectRepository(Seat) // 필요한 경우 추가
+    @InjectRepository(Seat)
     private seatRepository: Repository<Seat>,
+    @InjectRepository(SeatTemplate)
+    private seatTemplateRepository: Repository<SeatTemplate>,
   ) {}
 
   async createPerformance(
     performanceData: CreatePerformanceDto,
   ): Promise<Performance> {
-    // JSON 변환 과정이 필요하지 않습니다.
-    const newPerformance = this.performanceRepository.create(performanceData);
+    let seatTemplate = null;
+    if (performanceData.seatTemplateId) {
+      seatTemplate = await this.seatTemplateRepository.findOne({
+        where: { id: performanceData.seatTemplateId },
+      });
+      if (!seatTemplate) {
+        throw new NotFoundException('좌석 템플릿을 찾을 수 없습니다.');
+      }
+    }
+
+    const newPerformance = this.performanceRepository.create({
+      ...performanceData,
+      seatTemplate: seatTemplate,
+    });
+
     return this.performanceRepository.save(newPerformance);
   }
 
@@ -57,9 +73,23 @@ export class PerformanceService {
     id: number,
     updateData: UpdatePerformanceDto,
   ): Promise<Performance> {
-    const performance = await this.performanceRepository.findOneBy({ id });
+    const performance = await this.performanceRepository.findOne({
+      where: { id },
+      relations: ['seatTemplate'], // seatTemplate 관계 포함
+    });
+
     if (!performance) {
       throw new NotFoundException(`ID ${id}의 공연을 찾을 수 없습니다.`);
+    }
+
+    if (updateData.seatTemplateId !== undefined) {
+      const seatTemplate = await this.seatTemplateRepository.findOneBy({
+        id: updateData.seatTemplateId,
+      });
+      if (!seatTemplate && updateData.seatTemplateId !== null) {
+        throw new NotFoundException('좌석 템플릿을 찾을 수 없습니다.');
+      }
+      performance.seatTemplate = seatTemplate || null;
     }
 
     // 기존 값에 덮어씌우기
