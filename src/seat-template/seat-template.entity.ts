@@ -7,12 +7,14 @@ export class SeatTemplate {
   id: number;
 
   @Column()
-  name: string; // 템플릿 이름
+  name: string;
 
   @Column('json')
   configuration: {
-    rows: number;
-    seatsPerRow: number;
-    grades: string[];
+    grades: {
+      grade: string;
+      seatCount: number;
+      price: number;
+    }[];
   };
 }

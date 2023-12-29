@@ -134,17 +134,20 @@ Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "Standard Template",
-  "configuration": {
-    "rows": 10,
-    "seatsPerRow": 20,
-    "grades": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-  }
+  "name": "Custom Template",
+  "configuration": [
+    { "grade": "VIP", "seatCount": 5, "price": 10000 },
+    { "grade": "VVIP", "seatCount": 3, "price": 15000 },
+    { "grade": "VVVIP", "seatCount": 1, "price": 20000 },
+    { "grade": "A", "seatCount": 10, "price": 5000 },
+    { "grade": "B", "seatCount": 15, "price": 2500 },
+    { "grade": "C", "seatCount": 20, "price": 2000 }
+  ]
 }
 
 ### 
 # 특정 공연에 대한 좌석 생성 (템플릿 기반)
-POST {{domain}}/seats/create-from-template/performance/{performanceId}/template/{templateId}
+POST {{domain}}/seats/create-from-template/performance/1/template/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 

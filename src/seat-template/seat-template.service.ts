@@ -15,11 +15,19 @@ export class SeatTemplateService {
   async createSeatTemplate(
     createSeatTemplateDto: CreateSeatTemplateDto,
   ): Promise<SeatTemplate> {
-    const seatTemplate = this.seatTemplateRepository.create(
-      createSeatTemplateDto,
-    );
+    // DTO에서 엔티티로 데이터 변환
+    const seatTemplateData = {
+      name: createSeatTemplateDto.name,
+      configuration: {
+        grades: createSeatTemplateDto.configuration.map((gradeConfig) => ({
+          grade: gradeConfig.grade,
+          seatCount: gradeConfig.seatCount,
+          price: gradeConfig.price,
+        })),
+      },
+    };
+
+    const seatTemplate = this.seatTemplateRepository.create(seatTemplateData);
     return this.seatTemplateRepository.save(seatTemplate);
   }
-
-  // 기타 필요한 메서드들...
 }

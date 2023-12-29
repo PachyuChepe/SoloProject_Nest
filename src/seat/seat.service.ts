@@ -41,22 +41,20 @@ export class SeatService {
     }
 
     const seats = [];
-    for (let row = 1; row <= template.configuration.rows; row++) {
-      for (
-        let seatNum = 1;
-        seatNum <= template.configuration.seatsPerRow;
-        seatNum++
-      ) {
+    let seatNumber = 1;
+
+    template.configuration.grades.forEach((gradeConfig) => {
+      for (let i = 0; i < gradeConfig.seatCount; i++) {
         const seat = this.seatRepository.create({
           performance,
-          seatNumber: seatNum,
-          grade: template.configuration.grades[row - 1], // 예를 들어 각 열에 대한 등급
-          price: 0, // 가격 설정 로직 필요
+          seatNumber: seatNumber++,
+          grade: gradeConfig.grade,
+          price: gradeConfig.price,
           isBooked: false,
         });
         seats.push(seat);
       }
-    }
+    });
 
     return this.seatRepository.save(seats);
   }
