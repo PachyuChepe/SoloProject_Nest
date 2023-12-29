@@ -1,6 +1,8 @@
 // src/performance/performance.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+// import { Venue } from '../venue/venue.entity';
+import { SeatTemplate } from '../seat-template/seat-template.entity';
 
 @Entity()
 export class Performance {
@@ -27,4 +29,7 @@ export class Performance {
 
   @Column()
   category: string; // 공연 카테고리
+
+  @ManyToOne(() => SeatTemplate)
+  seatTemplate: SeatTemplate;
 }

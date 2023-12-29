@@ -127,7 +127,26 @@ DELETE {{domain}}/performances/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
+### 
+# 좌석 템플릿 생성
+POST {{domain}}/seat-templates
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
 
+{
+  "name": "Standard Template",
+  "configuration": {
+    "rows": 10,
+    "seatsPerRow": 20,
+    "grades": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
+  }
+}
+
+### 
+# 특정 공연에 대한 좌석 생성 (템플릿 기반)
+POST {{domain}}/seats/create-from-template/performance/{performanceId}/template/{templateId}
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
 
 
 
