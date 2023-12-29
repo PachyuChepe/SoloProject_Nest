@@ -25,7 +25,7 @@ export class User {
   isAdmin: boolean; // 사용자가 관리자인지 여부, 기본값 false
 
   @Column({ nullable: true, length: 30 })
-  sns_id?: string; // SNS ID (선택 사항)
+  snsId?: string; // SNS ID (선택 사항)
 
   @Column({ default: 'local' })
   provider: string; // 인증 제공자 (예: local, kakao)
