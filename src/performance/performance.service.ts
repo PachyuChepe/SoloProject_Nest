@@ -1,4 +1,5 @@
 // src/performance/performance.service.ts
+import { ConfigService } from '@nestjs/config';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +9,8 @@ import { SeatTemplate } from '../seat-template/seat-template.entity';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
 import { SearchPerformanceDto } from './dto/search-performance.dto';
+import * as FormData from 'form-data';
+import axios from 'axios';
 
 @Injectable()
 export class PerformanceService {
@@ -18,11 +21,50 @@ export class PerformanceService {
     private seatRepository: Repository<Seat>,
     @InjectRepository(SeatTemplate)
     private seatTemplateRepository: Repository<SeatTemplate>,
+    private configService: ConfigService,
   ) {}
+
+  async uploadImageToCloudflare(
+    imageFile: Express.Multer.File,
+  ): Promise<string> {
+    console.log('Uploading image to Cloudflare:', imageFile);
+    const formData = new FormData();
+    formData.append('file', imageFile.buffer, {
+      filename: imageFile.originalname,
+      contentType: imageFile.mimetype,
+    });
+
+    const response = await axios.post(
+      `https://api.cloudflare.com/client/v4/accounts/${this.configService.get(
+        'ACCOUNT_ID',
+      )}/images/v1`,
+      formData,
+      {
+        headers: {
+          ...formData.getHeaders(),
+          Authorization: `Bearer ${this.configService.get('API_TOKEN')}`,
+        },
+      },
+    );
+
+    if (response.status === 200 && response.data.success) {
+      // console.log(response.data.result.url, 'url 떳냐?');
+      // console.log('response', response);
+      // console.log('response.data', response.data);
+      console.log(
+        'response.data.result.variants 너냐!?',
+        response.data.result.variants[0],
+      );
+      return response.data.result.variants[0];
+    } else {
+      throw new Error('이미지 업로드 실패');
+    }
+  }
 
   async createPerformance(
     performanceData: CreatePerformanceDto,
   ): Promise<Performance> {
+    console.log('Creating performance:', performanceData);
     let seatTemplate = null;
     if (performanceData.seatTemplateId) {
       seatTemplate = await this.seatTemplateRepository.findOne({
@@ -32,6 +74,8 @@ export class PerformanceService {
         throw new NotFoundException('좌석 템플릿을 찾을 수 없습니다.');
       }
     }
+
+    console.log(performanceData.imageUrl, '여기에 들어오냐?');
 
     const newPerformance = this.performanceRepository.create({
       ...performanceData,

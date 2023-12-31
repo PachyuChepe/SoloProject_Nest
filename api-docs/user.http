@@ -35,7 +35,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "user@gmail.com",
+  "email": "admin@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -100,6 +100,48 @@ Content-Type: application/json
   "imageUrl": "https://d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4ca213fc2f4f44bd89b82c4125dfddf7/73155ec1b0ee4bf5a310644f3e6a85f2_1649225815.png",
   "seatTemplateId": 1
 }
+
+###
+# 공연 생성 이미지파일
+POST {{domain}}/performances/create
+Authorization: Bearer {{AccessToken}}
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="name"
+
+The Day After Tomorrow100
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="description"
+
+손이 시려워 꽁
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="location"
+
+감자국
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="schedule"
+
+[{"date": "2023-12-29", "time": "05:00"}, {"date": "2023-12-30", "time": "04:13"}, {"date": "2023-12-31", "time": "05:00"}]
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+50000
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="category"
+
+영화
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="seatTemplateId"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="image.png"
+Content-Type: image/png
+
+< ./image.png
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 
 ### 
 # 공연 전체 조회

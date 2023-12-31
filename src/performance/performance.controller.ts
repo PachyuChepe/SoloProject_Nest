@@ -11,7 +11,10 @@ import {
   Patch,
   Delete,
   Query,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PerformanceService } from './performance.service';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
@@ -25,13 +28,26 @@ export class PerformanceController {
 
   @Post('create')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   async createPerformance(
+    @UploadedFile() image: Express.Multer.File,
     @Body() performanceData: CreatePerformanceDto,
     @Req() req,
   ) {
     const user = req.user;
     if (!user.isAdmin) {
       throw new UnauthorizedException('관리자만 공연을 생성할 수 있습니다.');
+    }
+    if (image) {
+      console.log(image, '이미지 떳냐!?');
+      const imageUrl =
+        await this.performanceService.uploadImageToCloudflare(image);
+      performanceData.imageUrl = imageUrl;
+      console.log(
+        'performanceData.imageUrl 뭐가 들어오니?',
+        performanceData.imageUrl,
+      );
+      console.log('imageUrl 뭐가 들어오니?', imageUrl);
     }
     return this.performanceService.createPerformance(performanceData);
   }
