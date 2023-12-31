@@ -185,7 +185,7 @@ Content-Type: application/json
 }
 
 ###
-# 공연 생성 이미지 파일 CloudFlare로 관리
+# 공연 정보 수정 이미지 파일 CloudFlare로 관리
 PATCH {{domain}}/performances/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW

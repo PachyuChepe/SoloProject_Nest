@@ -28,8 +28,6 @@ export class PerformanceService {
   async uploadImageToCloudflare(
     imageFile: Express.Multer.File,
   ): Promise<string> {
-    console.log('Uploading image to Cloudflare:', imageFile);
-
     const uniqueFilename = `${uuidv4()}-${imageFile.originalname}`;
     const formData = new FormData();
     formData.append('file', imageFile.buffer, {
@@ -51,13 +49,6 @@ export class PerformanceService {
     );
 
     if (response.status === 200 && response.data.success) {
-      // console.log(response.data.result.url, 'url 떳냐?');
-      // console.log('response', response);
-      // console.log('response.data', response.data);
-      console.log(
-        'response.data.result.variants 너냐!?',
-        response.data.result.variants[0],
-      );
       return response.data.result.variants[0];
     } else {
       throw new Error('이미지 업로드 실패');
@@ -85,7 +76,6 @@ export class PerformanceService {
   async createPerformance(
     performanceData: CreatePerformanceDto,
   ): Promise<Performance> {
-    console.log('Creating performance:', performanceData);
     let seatTemplate = null;
     if (performanceData.seatTemplateId) {
       seatTemplate = await this.seatTemplateRepository.findOne({
@@ -95,8 +85,6 @@ export class PerformanceService {
         throw new NotFoundException('좌석 템플릿을 찾을 수 없습니다.');
       }
     }
-
-    console.log(performanceData.imageUrl, '여기에 들어오냐?');
 
     const newPerformance = this.performanceRepository.create({
       ...performanceData,

@@ -39,15 +39,9 @@ export class PerformanceController {
       throw new UnauthorizedException('관리자만 공연을 생성할 수 있습니다.');
     }
     if (image) {
-      console.log(image, '이미지 떳냐!?');
       const imageUrl =
         await this.performanceService.uploadImageToCloudflare(image);
       performanceData.imageUrl = imageUrl;
-      console.log(
-        'performanceData.imageUrl 뭐가 들어오니?',
-        performanceData.imageUrl,
-      );
-      console.log('imageUrl 뭐가 들어오니?', imageUrl);
     }
     return this.performanceService.createPerformance(performanceData);
   }
@@ -59,7 +53,6 @@ export class PerformanceController {
 
   @Get(':id')
   async getPerformanceById(@Param('id') id: number) {
-    console.log('아니 진짜 니가 검색으로 동작한다고?');
     return this.performanceService.findPerformanceById(id);
   }
 
@@ -70,7 +63,6 @@ export class PerformanceController {
 
   @Get('show/search')
   async searchPerformances(@Query() searchParams: SearchPerformanceDto) {
-    console.log('검색 파라미터:', searchParams);
     return this.performanceService.searchPerformances(searchParams);
   }
 
