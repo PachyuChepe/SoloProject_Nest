@@ -10,6 +10,7 @@ import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
 import { SearchPerformanceDto } from './dto/search-performance.dto';
 import * as FormData from 'form-data';
+import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
 @Injectable()
@@ -28,9 +29,11 @@ export class PerformanceService {
     imageFile: Express.Multer.File,
   ): Promise<string> {
     console.log('Uploading image to Cloudflare:', imageFile);
+
+    const uniqueFilename = `${uuidv4()}-${imageFile.originalname}`;
     const formData = new FormData();
     formData.append('file', imageFile.buffer, {
-      filename: imageFile.originalname,
+      filename: uniqueFilename,
       contentType: imageFile.mimetype,
     });
 
@@ -58,6 +61,24 @@ export class PerformanceService {
       return response.data.result.variants[0];
     } else {
       throw new Error('이미지 업로드 실패');
+    }
+  }
+
+  async deleteImageFromCloudflare(imageId: string): Promise<void> {
+    // Cloudflare API를 사용하여 이미지 삭제 요청
+    const response = await axios.delete(
+      `https://api.cloudflare.com/client/v4/accounts/${this.configService.get(
+        'ACCOUNT_ID',
+      )}/images/v1/${imageId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.configService.get('API_TOKEN')}`,
+        },
+      },
+    );
+
+    if (response.status !== 200 || !response.data.success) {
+      throw new Error('이미지 삭제 실패');
     }
   }
 
@@ -141,6 +162,7 @@ export class PerformanceService {
   async updatePerformance(
     id: number,
     updateData: UpdatePerformanceDto,
+    newImageFile?: Express.Multer.File,
   ): Promise<Performance> {
     const performance = await this.performanceRepository.findOne({
       where: { id },
@@ -159,6 +181,12 @@ export class PerformanceService {
         throw new NotFoundException('좌석 템플릿을 찾을 수 없습니다.');
       }
       performance.seatTemplate = seatTemplate || null;
+    }
+
+    // 새 이미지 파일이 제공된 경우, Cloudflare에 업로드
+    if (newImageFile) {
+      const newImageUrl = await this.uploadImageToCloudflare(newImageFile);
+      updateData.imageUrl = newImageUrl;
     }
 
     // 기존 값에 덮어씌우기

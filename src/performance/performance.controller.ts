@@ -76,10 +76,12 @@ export class PerformanceController {
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   async updatePerformance(
     @Param('id') id: number,
     @Body() updateData: UpdatePerformanceDto,
     @Req() req,
+    @UploadedFile() image?: Express.Multer.File,
   ) {
     const user = req.user;
     if (!user.isAdmin) {
@@ -87,7 +89,7 @@ export class PerformanceController {
         '관리자만 공연 정보를 수정할 수 있습니다.',
       );
     }
-    return this.performanceService.updatePerformance(id, updateData);
+    return this.performanceService.updatePerformance(id, updateData, image);
   }
 
   @Delete(':id')
