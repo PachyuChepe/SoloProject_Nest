@@ -13,6 +13,7 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PerformanceService } from './performance.service';
@@ -34,6 +35,15 @@ export class PerformanceController {
     @Body() performanceData: CreatePerformanceDto,
     @Req() req,
   ) {
+    // schedule 필드가 문자열인 경우 JSON 객체로 변환
+    if (typeof performanceData.schedule === 'string') {
+      try {
+        performanceData.schedule = JSON.parse(performanceData.schedule);
+      } catch (error) {
+        throw new BadRequestException('Invalid schedule format');
+      }
+    }
+
     const user = req.user;
     if (!user.isAdmin) {
       throw new UnauthorizedException('관리자만 공연을 생성할 수 있습니다.');
@@ -75,6 +85,15 @@ export class PerformanceController {
     @Req() req,
     @UploadedFile() image?: Express.Multer.File,
   ) {
+    // schedule 필드가 문자열인 경우 JSON 객체로 변환
+    if (typeof updateData.schedule === 'string') {
+      try {
+        updateData.schedule = JSON.parse(updateData.schedule);
+      } catch (error) {
+        throw new BadRequestException('Invalid schedule format');
+      }
+    }
+
     const user = req.user;
     if (!user.isAdmin) {
       throw new UnauthorizedException(

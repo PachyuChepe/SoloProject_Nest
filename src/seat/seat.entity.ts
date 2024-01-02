@@ -1,5 +1,4 @@
 // src/seat/seat.entity.ts
-
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Performance } from '../performance/performance.entity';
 import { Booking } from 'src/booking/booking.entity';

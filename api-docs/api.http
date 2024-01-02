@@ -3,7 +3,7 @@
 @AccessToken = {{loginToken.response.body.$.access_token}}
 
 ### 
-# 관리자 회원가입
+# [Admin] 관리자 회원가입
 POST {{domain}}/users/register
 Content-Type: application/json
 
@@ -35,7 +35,7 @@ POST {{domain}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin@gmail.com",
+  "email": "user@gmail.com",
   "password": "123qweQWE!"
 }
 
@@ -44,7 +44,6 @@ Content-Type: application/json
 GET {{domain}}/users/profile
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
-
 
 ### 
 # 사용자 정보 업데이트
@@ -77,11 +76,8 @@ Authorization: Bearer {{AccessToken}}
 POST {{domain}}/auth/refresh
 Authorization: Bearer {{AccessToken}}
 
-
-
-
 ### 
-# 공연 생성
+# [Admin] 공연 생성 - imageURL
 POST {{domain}}/performances/create
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
@@ -102,7 +98,7 @@ Content-Type: application/json
 }
 
 ###
-# 공연 생성 이미지 파일 CloudFlare로 관리
+# [Admin] 공연 생성 - imageFile
 POST {{domain}}/performances/create
 Authorization: Bearer {{AccessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -141,7 +137,6 @@ Content-Type: image/png
 
 < ./image.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
-
 
 ### 
 # 공연 전체 조회
@@ -163,9 +158,8 @@ Content-Type: application/json
 GET {{domain}}/performances/show/search?title=th%20%20%20++e&category=영화
 Content-Type: application/json
 
-
 ### 
-# 공연 정보 수정
+# 공연 정보 수정 - imageURL
 PATCH {{domain}}/performances/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
@@ -185,7 +179,7 @@ Content-Type: application/json
 }
 
 ###
-# 공연 정보 수정 이미지 파일 CloudFlare로 관리
+# [Admin] 공연 정보 수정 - imageFile
 PATCH {{domain}}/performances/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
@@ -205,7 +199,7 @@ Content-Disposition: form-data; name="location"
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="schedule"
 
-[{"date": "2023-12-29", "time": "05:00"}, {"date": "2023-12-30", "time": "04:13"}, {"date": "2023-12-31", "time": "05:00"}]
+[{"date": "2024-01-30", "time": "05:00"}, {"date": "2023-12-30", "time": "04:13"}, {"date": "2023-12-31", "time": "05:00"}]
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="price"
 
@@ -225,23 +219,22 @@ Content-Type: image/png
 < ./image.png
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
 
-
-
-
 ### 
-# 공연 정보 삭제
+# [Admin] 공연 정보 삭제
 DELETE {{domain}}/performances/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
+
+
 ### 
-# 좌석 템플릿 생성
+# [Admin] 좌석 템플릿 생성
 POST {{domain}}/seat-templates
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
-  "name": "Custom Template",
+  "name": "Custom Template2",
   "configuration": [
     { "grade": "VIP", "seatCount": 1, "price": 10000 },
     { "grade": "VVIP", "seatCount": 1, "price": 15000 },
@@ -253,11 +246,82 @@ Content-Type: application/json
 }
 
 ### 
-# 특정 공연에 대한 좌석 생성 (템플릿 기반)
+# [Admin] 좌석 템플릿 전체 조회
+GET {{domain}}/seat-templates
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+### 
+# [Admin] 좌석 템플릿 상세 조회
+GET {{domain}}/seat-templates/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+### 
+# [Admin] 좌석 템플릿 수정
+PATCH {{domain}}/seat-templates/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "name": "Custom Template1",
+  "configuration": [
+    { "grade": "VIP", "seatCount": 1, "price": 10000 },
+    { "grade": "VVIP", "seatCount": 1, "price": 15000 },
+    { "grade": "VVVIP", "seatCount": 1, "price": 20000 },
+    { "grade": "A", "seatCount": 1, "price": 5000 },
+    { "grade": "B", "seatCount": 1, "price": 2500 },
+    { "grade": "C", "seatCount": 1, "price": 2000 }
+  ]
+}
+
+### 
+# [Admin] 좌석 템플릿 삭제
+DELETE {{domain}}/seat-templates/2
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+### 
+# [Admin] 특정 공연의 좌석을 템플릿 기반으로 생성
 POST {{domain}}/seats/create-from-template/performance/1/template/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
+### 
+# [Admin] 특정 공연의 모든 좌석 조회
+GET {{domain}}/seats/performance/2
+Authorization: Bearer {{AccessToken}}
+
+### 
+# [Admin] 특정 좌석 상세 조회
+GET {{domain}}/seats/1
+Authorization: Bearer {{AccessToken}}
+
+### 
+# [Admin] 특정 좌석 수정
+PATCH {{domain}}/seats/1
+Authorization: Bearer {{AccessToken}}
+Content-Type: application/json
+
+{
+  "grade": "VIP",
+  "price": 12000
+}
+
+### 
+# [Admin] 특정 좌석 삭제
+DELETE {{domain}}/seats/1
+Authorization: Bearer {{AccessToken}}
+
+### 
+# [Admin] 특정 공연의 좌석을 템플릿 기반으로 업데이트
+PATCH {{domain}}/seats/update-from-template/performance/1/template/1
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 특정 공연에 할당된 전체 좌석 삭제
+DELETE {{domain}}/seats/performance/1
+Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 생성
@@ -267,37 +331,22 @@ Content-Type: application/json
 
 {
   "performanceId": 1,
-  "date": "2023-12-29",
+  "date": "2024-01-30",
   "time": "05:00",
   "seatNumbers": [1, 2, 3]
 }
 
 ### 
-# 사용자의 예약 조회
+# 예약 조회
 GET {{domain}}/bookings/my-bookings
+Authorization: Bearer {{AccessToken}}
+
+### 
+# 예약 상세 조회
+GET {{domain}}/bookings/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 취소
 DELETE {{domain}}/bookings/1/cancel
 Authorization: Bearer {{AccessToken}}
-
-
-### 
-# 인증번호 요청
-POST {{domain}}/request-verify
-Content-Type: application/json
-
-{
-  "email": "pachyuchepe@gmail.com"
-}
-
-### 
-# 인증번호 확인
-POST {{domain}}/validate-verify
-Content-Type: application/json
-
-{
-  "email": "pachyuchepe@gmail.com",
-  "verifyCode": "123456"
-}

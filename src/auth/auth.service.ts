@@ -33,6 +33,7 @@ export class AuthService {
     await this.redisService.setRefreshToken(user.email, refreshToken);
 
     return {
+      message: '로그인 완료',
       access_token: accessToken,
     };
   }
