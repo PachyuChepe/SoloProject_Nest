@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
   ConflictException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -41,6 +42,11 @@ export class BookingService {
         );
         if (!performance) {
           throw new NotFoundException('공연을 찾을 수 없습니다.');
+        }
+
+        // performance.schedule이 배열인지 확인
+        if (!Array.isArray(performance.schedule)) {
+          throw new Error('공연 일정 데이터가 유효하지 않습니다.');
         }
 
         const currentDate = new Date();
@@ -139,6 +145,49 @@ export class BookingService {
         booking.seats.reduce((sum, seat) => sum + seat.price, 0),
       bookingDate: booking.date,
     }));
+  }
+
+  async getBookingDetails(bookingId: number, userId: number): Promise<any> {
+    const booking = await this.bookingRepository.findOne({
+      where: { id: bookingId, user: { id: userId } },
+      relations: ['performance', 'seats', 'user'],
+    });
+
+    if (!booking) {
+      throw new NotFoundException('예매 내역을 찾을 수 없습니다.');
+    }
+
+    // 사용자가 해당 예매 내역의 소유자인지 확인
+    if (booking.user.id !== userId) {
+      throw new UnauthorizedException('접근 권한이 없습니다.');
+    }
+
+    return {
+      id: booking.id,
+      user: {
+        id: booking.user.id,
+        name: booking.user.nickname,
+        email: booking.user.email,
+      },
+      performance: {
+        id: booking.performance.id,
+        name: booking.performance.name,
+        description: booking.performance.description,
+        date: booking.performance.schedule,
+        price: booking.performance.price,
+        imageUrl: booking.performance.imageUrl,
+      },
+      seats: booking.seats.map((seat) => ({
+        id: seat.id,
+        seatNumber: seat.seatNumber,
+        grade: seat.grade,
+        price: seat.price,
+      })),
+      bookingDate: booking.date,
+      totalCost:
+        booking.performance.price +
+        booking.seats.reduce((sum, seat) => sum + seat.price, 0),
+    };
   }
 
   async cancelBooking(bookingId: number, userId: number): Promise<void> {

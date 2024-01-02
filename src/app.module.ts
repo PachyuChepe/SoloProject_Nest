@@ -41,7 +41,7 @@ import { RedisModule } from './config/redis/redis.module';
         database: configService.get('DATABASE_NAME'),
         entities: [User, Performance, Booking, Seat, SeatTemplate],
         synchronize: configService.get('SYNCHRONIZE') === 'true', // 서버 시작 시 DB 마이그레이션 ON
-        logging: true, // DB 로깅 옵션
+        logging: false, // DB 로깅 옵션
       }),
       inject: [ConfigService],
     }),

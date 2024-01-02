@@ -50,7 +50,7 @@ export class AuthController {
     }
 
     const newAccessToken = this.authService.generateAccessToken(user);
-    console.log('newAccessToken', newAccessToken);
+
     return { access_token: newAccessToken };
   }
 }

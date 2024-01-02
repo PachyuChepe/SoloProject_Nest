@@ -11,7 +11,11 @@ import {
   Patch,
   Delete,
   Query,
+  UseInterceptors,
+  UploadedFile,
+  BadRequestException,
 } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { PerformanceService } from './performance.service';
 import { CreatePerformanceDto } from './dto/create-performance.dto';
 import { UpdatePerformanceDto } from './dto/update-performance.dto';
@@ -25,13 +29,29 @@ export class PerformanceController {
 
   @Post('create')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   async createPerformance(
+    @UploadedFile() image: Express.Multer.File,
     @Body() performanceData: CreatePerformanceDto,
     @Req() req,
   ) {
+    // schedule 필드가 문자열인 경우 JSON 객체로 변환
+    if (typeof performanceData.schedule === 'string') {
+      try {
+        performanceData.schedule = JSON.parse(performanceData.schedule);
+      } catch (error) {
+        throw new BadRequestException('Invalid schedule format');
+      }
+    }
+
     const user = req.user;
     if (!user.isAdmin) {
       throw new UnauthorizedException('관리자만 공연을 생성할 수 있습니다.');
+    }
+    if (image) {
+      const imageUrl =
+        await this.performanceService.uploadImageToCloudflare(image);
+      performanceData.imageUrl = imageUrl;
     }
     return this.performanceService.createPerformance(performanceData);
   }
@@ -43,7 +63,6 @@ export class PerformanceController {
 
   @Get(':id')
   async getPerformanceById(@Param('id') id: number) {
-    console.log('아니 진짜 니가 검색으로 동작한다고?');
     return this.performanceService.findPerformanceById(id);
   }
 
@@ -54,24 +73,34 @@ export class PerformanceController {
 
   @Get('show/search')
   async searchPerformances(@Query() searchParams: SearchPerformanceDto) {
-    console.log('검색 파라미터:', searchParams);
     return this.performanceService.searchPerformances(searchParams);
   }
 
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
   async updatePerformance(
     @Param('id') id: number,
     @Body() updateData: UpdatePerformanceDto,
     @Req() req,
+    @UploadedFile() image?: Express.Multer.File,
   ) {
+    // schedule 필드가 문자열인 경우 JSON 객체로 변환
+    if (typeof updateData.schedule === 'string') {
+      try {
+        updateData.schedule = JSON.parse(updateData.schedule);
+      } catch (error) {
+        throw new BadRequestException('Invalid schedule format');
+      }
+    }
+
     const user = req.user;
     if (!user.isAdmin) {
       throw new UnauthorizedException(
         '관리자만 공연 정보를 수정할 수 있습니다.',
       );
     }
-    return this.performanceService.updatePerformance(id, updateData);
+    return this.performanceService.updatePerformance(id, updateData, image);
   }
 
   @Delete(':id')

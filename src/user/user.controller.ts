@@ -25,14 +25,14 @@ export class UserController {
 
   @Post('register')
   async register(@Body() createUserDto: CreateUserDto) {
-    return this.userService.createUser(createUserDto);
+    const user = await this.userService.createUser(createUserDto);
+    return { message: '회원가입 성공', user };
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   // @UseGuards(JwtAuthGuard)
   @Get('profile')
   async getProfile(@Request() req) {
-    console.log('뭐뭐들어옴?', req.user);
     // const currentTime = Math.floor(Date.now() / 1000);
     // if (req.user.exp && req.user.exp < currentTime) {
     //   throw new UnauthorizedException('토큰이 만료되었습니다.');
@@ -44,7 +44,8 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   @Patch('update')
   async updateUser(@Request() req, @Body() updateData: UpdateUserDto) {
-    return this.userService.updateUser(req.user.email, updateData);
+    const user = await this.userService.updateUser(req.user.email, updateData);
+    return { message: '사용자 정보 업데이트 성공', user };
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
@@ -52,11 +53,13 @@ export class UserController {
   async deleteUser(@Request() req) {
     await this.userService.deleteUser(req.user.email);
     await this.redisService.removeRefreshToken(req.user.email); // 리프레시 토큰 제거
+    return { message: '사용자 삭제 성공' };
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   @Post('logout')
   async logout(@Request() req) {
     await this.redisService.removeRefreshToken(req.user.email); // 리프레시 토큰 제거
+    return { message: '로그아웃 성공' };
   }
 }

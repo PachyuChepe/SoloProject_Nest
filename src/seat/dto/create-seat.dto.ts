@@ -1,3 +1,4 @@
+// src/seat/dto/create-seat.dto.ts
 import { IsNumber, IsString, IsBoolean } from 'class-validator';
 
 export class CreateSeatDto {
