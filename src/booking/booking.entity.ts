@@ -6,6 +6,9 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
 
 import { Performance } from '../performance/performance.entity';
@@ -27,4 +30,13 @@ export class Booking {
 
   @Column()
   date: Date; // 예약 날짜
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
