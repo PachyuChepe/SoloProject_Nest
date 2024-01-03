@@ -14,28 +14,28 @@ export class User {
   id: number;
 
   @Column()
-  email: string; // 사용자 이메일
+  email: string;
 
   @Column()
-  password: string; // 사용자 비밀번호
+  password: string;
 
   @Column()
-  nickname: string; // 사용자 닉네임
+  nickname: string;
 
   @Column({ nullable: true })
-  call?: string; // 사용자 전화번호 (선택 사항)
+  call?: string;
 
   @Column({ default: 1000000 })
-  points: number; // 사용자가 가진 포인트, 기본값 1000000
+  points: number;
 
   @Column({ default: false })
-  isAdmin: boolean; // 사용자가 관리자인지 여부, 기본값 false
+  isAdmin: boolean;
 
   @Column({ nullable: true, length: 30 })
-  snsId?: string; // SNS ID (선택 사항)
+  snsId?: string;
 
   @Column({ default: 'local' })
-  provider: string; // 인증 제공자 (예: local, kakao)
+  provider: string;
 
   @CreateDateColumn()
   createdAt: Date;

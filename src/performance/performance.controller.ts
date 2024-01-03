@@ -115,7 +115,6 @@ export class PerformanceController {
     @Body() performanceData: CreatePerformanceDto | any,
     @Req() req,
   ) {
-    // schedule 필드가 문자열인 경우 JSON 객체로 변환
     if (typeof performanceData.schedule === 'string') {
       try {
         performanceData.schedule = JSON.parse(performanceData.schedule);
@@ -258,7 +257,6 @@ export class PerformanceController {
     @Req() req,
     @UploadedFile() image?: Express.Multer.File,
   ) {
-    // schedule 필드가 문자열인 경우 JSON 객체로 변환
     if (typeof updateData.schedule === 'string') {
       try {
         updateData.schedule = JSON.parse(updateData.schedule);

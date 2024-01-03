@@ -5,7 +5,7 @@ import { IsString, MinLength, IsOptional } from 'class-validator';
 export class UpdateUserDto {
   @IsString()
   @MinLength(6)
-  @IsOptional() // 선택적 필드로 설정
+  @IsOptional()
   @ApiProperty({
     example: 'password123',
     description: '비밀번호 (최소 6자)',
@@ -15,16 +15,16 @@ export class UpdateUserDto {
 
   @IsString()
   @MinLength(6)
-  @IsOptional() // 선택적 필드로 설정
+  @IsOptional()
   @ApiProperty({
     example: 'password123',
     description: '비밀번호 (최소 6자)',
     required: false,
   })
-  newPassword?: string; // 새로운 비밀번호 필드 추가
+  newPassword?: string;
 
   @IsString()
-  @IsOptional() // 선택적 필드로 설정
+  @IsOptional()
   @ApiProperty({ example: 'nickname', description: '닉네임', required: false })
   nickname?: string;
 

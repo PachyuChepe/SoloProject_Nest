@@ -16,10 +16,6 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
       )}:${this.configService.get('REDIS_PASSWORD')}@${this.configService.get(
         'REDIS_HOST',
       )}:${this.configService.get('REDIS_PORT')}/0`,
-      // url: `redis://${this.configService.get(
-      //   'REDIS_HOST',
-      // )}:${this.configService.get('REDIS_PORT')}`,
-      // password: this.configService.get('REDIS_PASSWORD'),
     });
 
     this.client.on('error', (error) => console.error(`Redis Error: ${error}`));
@@ -34,7 +30,7 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
 
   async setRefreshToken(userId: string, token: string): Promise<void> {
     await this.client.set(`refresh_token:${userId}`, token, {
-      EX: 60 * 60 * 24 * 7, // 7일 유효기간
+      EX: 60 * 60 * 24 * 7,
     });
   }
 

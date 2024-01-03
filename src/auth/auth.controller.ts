@@ -40,7 +40,6 @@ export class AuthController {
   @ApiResponse({ status: 401, description: '인증 실패' })
   @ApiBody({ type: LoginUserDto })
   async login(@Body() loginUserDto: LoginUserDto, @Request() req) {
-    // LoginUserDto를 사용하여 요청 본문의 유효성 검사
     return this.authService.login(req.user);
   }
 
@@ -55,14 +54,6 @@ export class AuthController {
   @ApiResponse({ status: 401, description: '리프레시 토큰 유효하지 않음' })
   async refreshAccessToken(@Req() req) {
     const user = req.user;
-    // const currentTime = Math.floor(Date.now() / 1000);
-
-    // 토큰이 만료되었는지 확인
-    // if (!user.exp || user.exp > currentTime) {
-    //   throw new UnauthorizedException(
-    //     '엑세스 토큰이 아직 만료되지 않았습니다.',
-    //   );
-    // }
 
     const refreshToken = await this.redisService.getRefreshToken(user.email);
     if (!refreshToken) {

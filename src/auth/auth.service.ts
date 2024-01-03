@@ -22,7 +22,7 @@ export class AuthService {
       );
     }
 
-    return user; // 전체 사용자 객체 반환
+    return user;
   }
 
   async login(user: any) {

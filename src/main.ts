@@ -18,7 +18,7 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
-      'access_token', // 'access-token'은 인증 키 이름으로, Swagger UI에서 사용
+      'access_token',
     )
     .build();
   const document = SwaggerModule.createDocument(app, options);

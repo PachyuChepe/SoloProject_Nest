@@ -1,5 +1,4 @@
 // src/performance/performance.module.ts
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SeatTemplate } from 'src/seat-template/seat-template.entity';

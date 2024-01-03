@@ -21,7 +21,6 @@ export class UserService {
   async createUser(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname, call, points, isAdmin } = createUserDto;
 
-    // 이메일 중복 검사
     const existingUser = await this.userRepository.findOne({
       where: { email },
     });
@@ -35,13 +34,12 @@ export class UserService {
       password: hashedPassword,
       nickname,
       call,
-      points: points !== undefined ? points : 1000000, // points가 undefined일 경우에만 기본값 사용
-      isAdmin: isAdmin || false, // isAdmin이 제공되지 않으면 기본값 false 사용
+      points: points !== undefined ? points : 1000000,
+      isAdmin: isAdmin || false,
     });
     return this.userRepository.save(newUser);
   }
 
-  // 사용자 이메일로 사용자 정보 조회
   async findOne(email: string): Promise<User | undefined> {
     return this.userRepository.findOne({ where: { email } });
   }
@@ -60,12 +58,10 @@ export class UserService {
       throw new UnauthorizedException('사용자를 찾을 수 없습니다.');
     }
 
-    // 현재 패스워드가 필요한 경우 확인
     if (!updateData.currentPassword) {
       throw new UnauthorizedException('기존 비밀번호를 입력해주세요.');
     }
 
-    // 현재 패스워드 확인
     if (
       updateData.currentPassword &&
       !(await bcrypt.compare(updateData.currentPassword, user.password))
@@ -73,18 +69,15 @@ export class UserService {
       throw new UnauthorizedException('현재 비밀번호가 일치하지 않습니다.');
     }
 
-    // 새로운 패스워드 업데이트
     if (updateData.newPassword) {
       const hashedPassword = await bcrypt.hash(updateData.newPassword, 10);
       user.password = hashedPassword;
     }
 
-    // 닉네임 업데이트
     if (updateData.nickname) {
       user.nickname = updateData.nickname;
     }
 
-    // 전화번호 업데이트
     if (updateData.call) {
       user.call = updateData.call;
     }

@@ -56,11 +56,6 @@ export class UserController {
   @ApiResponse({ status: 200, description: '프로필 조회 성공' })
   @ApiResponse({ status: 401, description: '인증 실패' })
   async getProfile(@Request() req) {
-    // const currentTime = Math.floor(Date.now() / 1000);
-    // if (req.user.exp && req.user.exp < currentTime) {
-    //   throw new UnauthorizedException('토큰이 만료되었습니다.');
-    // }
-
     return this.userService.findOne(req.user.email);
   }
 

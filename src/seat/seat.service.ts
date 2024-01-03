@@ -77,7 +77,6 @@ export class SeatService {
       where: { performance: { id: performanceId } },
     });
 
-    // 공연에 할당된 좌석이 없는 경우 에러 처리
     if (!seats || seats.length === 0) {
       throw new NotFoundException(
         `ID ${performanceId} 공연에 할당된 좌석이 없습니다.`,

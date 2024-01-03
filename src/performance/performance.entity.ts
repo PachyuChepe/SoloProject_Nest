@@ -1,5 +1,4 @@
 // src/performance/performance.entity.ts
-
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -26,7 +25,7 @@ export class Performance {
   @Column()
   location: string;
 
-  @Column({ type: 'json' }) // JSON 타입으로 변경
+  @Column({ type: 'json' })
   schedule: ScheduleDto[];
 
   @Column()

@@ -6,8 +6,6 @@ import { Strategy, ExtractJwt } from 'passport-jwt';
 
 import { UserService } from '../../user/user.service';
 
-// type Done = (error: Error | null, user?: any, info?: any) => void;
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
@@ -16,7 +14,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      ignoreExpiration: true, // 만료된 토큰도 받아들임
+      ignoreExpiration: true, // 만료된 토큰도 허용
       secretOrKey: configService.get('JWT_SECRET_KEY'),
     });
   }

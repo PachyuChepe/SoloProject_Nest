@@ -58,7 +58,6 @@ export class PerformanceService {
   }
 
   async deleteImageFromCloudflare(imageId: string): Promise<void> {
-    // Cloudflare API를 사용하여 이미지 삭제 요청
     const response = await axios.delete(
       `https://api.cloudflare.com/client/v4/accounts/${this.configService.get(
         'ACCOUNT_ID',
@@ -114,7 +113,6 @@ export class PerformanceService {
       throw new NotFoundException(`ID ${id}의 공연을 찾을 수 없습니다.`);
     }
 
-    // 좌석 정보와 예매 가능 여부 확인
     const seats = await this.seatRepository.find({
       where: { performance: { id: id } },
     });
@@ -131,7 +129,7 @@ export class PerformanceService {
     const query = this.performanceRepository.createQueryBuilder('performance');
 
     if (searchParams.title) {
-      const formattedTitle = `%${searchParams.title.replace(/\s+/g, ' ')}%`; // 모든 연속된 공백을 하나의 공백으로 변환
+      const formattedTitle = `%${searchParams.title.replace(/\s+/g, ' ')}%`;
       query.andWhere(
         "REPLACE(performance.name, ' ', '') LIKE REPLACE(:title, ' ', '')",
         {
@@ -156,7 +154,7 @@ export class PerformanceService {
   ): Promise<Performance> {
     const performance = await this.performanceRepository.findOne({
       where: { id },
-      relations: ['seatTemplate'], // seatTemplate 관계 포함
+      relations: ['seatTemplate'],
     });
 
     if (!performance) {
@@ -173,13 +171,11 @@ export class PerformanceService {
       performance.seatTemplate = seatTemplate || null;
     }
 
-    // 새 이미지 파일이 제공된 경우, Cloudflare에 업로드
     if (newImageFile) {
       const newImageUrl = await this.uploadImageToCloudflare(newImageFile);
       updateData.imageUrl = newImageUrl;
     }
 
-    // 기존 값에 덮어씌우기
     this.performanceRepository.merge(performance, updateData);
     return this.performanceRepository.save(performance);
   }
