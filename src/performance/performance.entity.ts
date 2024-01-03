@@ -1,7 +1,15 @@
 // src/performance/performance.entity.ts
 
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-// import { Venue } from '../venue/venue.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+} from 'typeorm';
+
 import { SeatTemplate } from '../seat-template/seat-template.entity';
 
 @Entity()
@@ -32,6 +40,15 @@ export class Performance {
 
   @ManyToOne(() => SeatTemplate)
   seatTemplate: SeatTemplate;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }
 
 class ScheduleDto {

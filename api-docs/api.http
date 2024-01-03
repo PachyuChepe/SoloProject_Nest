@@ -4,7 +4,7 @@
 
 ### 
 # [Admin] 관리자 회원가입
-POST {{domain}}/users/register
+POST {{domain}}/user
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 ### 
 # 사용자 회원가입
-POST {{domain}}/users/register
+POST {{domain}}/user
 Content-Type: application/json
 
 {
@@ -29,7 +29,18 @@ Content-Type: application/json
 }
 
 ###
-# 로그인
+# [Admin] 관리자 로그인
+# @name loginToken
+POST {{domain}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@gmail.com",
+  "password": "password123"
+}
+
+###
+# 사용자 로그인
 # @name loginToken
 POST {{domain}}/auth/login
 Content-Type: application/json
@@ -41,13 +52,13 @@ Content-Type: application/json
 
 ###
 # 사용자 정보 조회
-GET {{domain}}/users/profile
+GET {{domain}}/user/profile
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 ### 
 # 사용자 정보 업데이트
-PATCH {{domain}}/users/update
+PATCH {{domain}}/user
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -60,13 +71,13 @@ Content-Type: application/json
 
 ### 
 # 사용자 삭제
-DELETE {{domain}}/users/delete
+DELETE {{domain}}/user
 Content-Type: application/json
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # 로그아웃
-POST {{domain}}/users/logout
+POST {{domain}}/user/logout
 Content-Type: application/json
 Authorization: Bearer {{AccessToken}}
 
@@ -76,9 +87,11 @@ Authorization: Bearer {{AccessToken}}
 POST {{domain}}/auth/refresh
 Authorization: Bearer {{AccessToken}}
 
+
+
 ### 
 # [Admin] 공연 생성 - imageURL
-POST {{domain}}/performances/create
+POST {{domain}}/performance
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -99,7 +112,7 @@ Content-Type: application/json
 
 ###
 # [Admin] 공연 생성 - imageFile
-POST {{domain}}/performances/create
+POST {{domain}}/performance
 Authorization: Bearer {{AccessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -140,27 +153,27 @@ Content-Type: image/png
 
 ### 
 # 공연 전체 조회
-GET {{domain}}/performances
+GET {{domain}}/performance
 Content-Type: application/json
 
 ### 
 # 공연 상세 조회
-GET {{domain}}/performances/1
+GET {{domain}}/performance/1
 Content-Type: application/json
 
 ### 
 # 공연 상세 조회 (예매 가능 유무)
-GET {{domain}}/performances/1/detail
+GET {{domain}}/performance/detail/1
 Content-Type: application/json
 
 ###
 # 공연 검색
-GET {{domain}}/performances/show/search?title=th%20%20%20++e&category=영화
+GET {{domain}}/performance/detailed/search?title=the&category=영화
 Content-Type: application/json
 
 ### 
 # 공연 정보 수정 - imageURL
-PATCH {{domain}}/performances/1
+PATCH {{domain}}/performance/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -180,7 +193,7 @@ Content-Type: application/json
 
 ###
 # [Admin] 공연 정보 수정 - imageFile
-PATCH {{domain}}/performances/1
+PATCH {{domain}}/performance/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -221,7 +234,7 @@ Content-Type: image/png
 
 ### 
 # [Admin] 공연 정보 삭제
-DELETE {{domain}}/performances/1
+DELETE {{domain}}/performance/2
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -229,7 +242,7 @@ Content-Type: application/json
 
 ### 
 # [Admin] 좌석 템플릿 생성
-POST {{domain}}/seat-templates
+POST {{domain}}/template
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -247,59 +260,60 @@ Content-Type: application/json
 
 ### 
 # [Admin] 좌석 템플릿 전체 조회
-GET {{domain}}/seat-templates
+GET {{domain}}/template
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 ### 
 # [Admin] 좌석 템플릿 상세 조회
-GET {{domain}}/seat-templates/1
+GET {{domain}}/template/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 ### 
 # [Admin] 좌석 템플릿 수정
-PATCH {{domain}}/seat-templates/1
+PATCH {{domain}}/template/2
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 {
   "name": "Custom Template1",
   "configuration": [
-    { "grade": "VIP", "seatCount": 1, "price": 10000 },
-    { "grade": "VVIP", "seatCount": 1, "price": 15000 },
-    { "grade": "VVVIP", "seatCount": 1, "price": 20000 },
-    { "grade": "A", "seatCount": 1, "price": 5000 },
-    { "grade": "B", "seatCount": 1, "price": 2500 },
-    { "grade": "C", "seatCount": 1, "price": 2000 }
+    { "grade": "VIP", "seatCount": 2, "price": 1000 },
+    { "grade": "VVIP", "seatCount": 3, "price": 1500 },
+    { "grade": "VVVIP", "seatCount": 4, "price": 2000 },
+    { "grade": "A", "seatCount": 1, "price": 500 },
+    { "grade": "B", "seatCount": 1, "price": 250 }
   ]
 }
 
 ### 
 # [Admin] 좌석 템플릿 삭제
-DELETE {{domain}}/seat-templates/2
+DELETE {{domain}}/template/2
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
+
+
 ### 
 # [Admin] 특정 공연의 좌석을 템플릿 기반으로 생성
-POST {{domain}}/seats/create-from-template/performance/1/template/1
+POST {{domain}}/seat/performance/1/template/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
 ### 
 # [Admin] 특정 공연의 모든 좌석 조회
-GET {{domain}}/seats/performance/2
+GET {{domain}}/seat/performance/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # [Admin] 특정 좌석 상세 조회
-GET {{domain}}/seats/1
+GET {{domain}}/seat/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # [Admin] 특정 좌석 수정
-PATCH {{domain}}/seats/1
+PATCH {{domain}}/seat/1
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -310,22 +324,24 @@ Content-Type: application/json
 
 ### 
 # [Admin] 특정 좌석 삭제
-DELETE {{domain}}/seats/1
+DELETE {{domain}}/seat/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # [Admin] 특정 공연의 좌석을 템플릿 기반으로 업데이트
-PATCH {{domain}}/seats/update-from-template/performance/1/template/1
+PATCH {{domain}}/seat/performance/1/template/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # 특정 공연에 할당된 전체 좌석 삭제
-DELETE {{domain}}/seats/performance/1
+DELETE {{domain}}/seat/performance/1
 Authorization: Bearer {{AccessToken}}
+
+
 
 ### 
 # 예약 생성
-POST {{domain}}/bookings
+POST {{domain}}/booking
 Authorization: Bearer {{AccessToken}}
 Content-Type: application/json
 
@@ -337,16 +353,16 @@ Content-Type: application/json
 }
 
 ### 
-# 예약 조회
-GET {{domain}}/bookings/my-bookings
+# 예약 전체 조회
+GET {{domain}}/booking
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 상세 조회
-GET {{domain}}/bookings/1
+GET {{domain}}/booking/1
 Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 취소
-DELETE {{domain}}/bookings/1/cancel
+DELETE {{domain}}/booking/1
 Authorization: Bearer {{AccessToken}}

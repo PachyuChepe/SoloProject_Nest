@@ -1,15 +1,18 @@
 // src/booking/booking.entity.ts
-
+import { Seat } from 'src/seat/seat.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
 } from 'typeorm';
-import { User } from '../user/user.entity';
+
 import { Performance } from '../performance/performance.entity';
-import { Seat } from 'src/seat/seat.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class Booking {
@@ -27,4 +30,13 @@ export class Booking {
 
   @Column()
   date: Date; // 예약 날짜
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt?: Date;
 }

@@ -8,14 +8,23 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { RedisService } from '../config/redis/redis.service';
-
-import { LocalAuthGuard } from './guard/local-auth.guard';
-import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBody,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 
+import { RedisService } from '../config/redis/redis.service';
+import { UserService } from '../user/user.service';
+
+import { AuthService } from './auth.service';
+import { LoginUserDto } from './dto/login-user.dto';
+import { LocalAuthGuard } from './guard/local-auth.guard';
+
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -24,15 +33,26 @@ export class AuthController {
     private redisService: RedisService,
   ) {}
 
+  @Post('/login')
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @ApiOperation({ summary: '로그인' })
+  @ApiResponse({ status: 201, description: '로그인 성공' })
+  @ApiResponse({ status: 401, description: '인증 실패' })
+  @ApiBody({ type: LoginUserDto })
   async login(@Body() loginUserDto: LoginUserDto, @Request() req) {
     // LoginUserDto를 사용하여 요청 본문의 유효성 검사
     return this.authService.login(req.user);
   }
 
+  @Post('/refresh')
   @UseGuards(AuthGuard('jwt'))
-  @Post('refresh')
+  @ApiBearerAuth('access_token')
+  @ApiOperation({
+    summary: '액세스 토큰 갱신',
+    description: '리프레시 토큰을 사용하여 새로운 액세스 토큰을 발급받습니다.',
+  })
+  @ApiResponse({ status: 200, description: '새로운 액세스 토큰 발급 성공' })
+  @ApiResponse({ status: 401, description: '리프레시 토큰 유효하지 않음' })
   async refreshAccessToken(@Req() req) {
     const user = req.user;
     // const currentTime = Math.floor(Date.now() / 1000);

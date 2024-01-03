@@ -1,26 +1,23 @@
 // src/app.module.ts
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { User } from './user/user.entity';
-import { Booking } from './booking/booking.entity';
-import { Seat } from './seat/seat.entity';
-import { Performance } from './performance/performance.entity';
-import { SeatTemplate } from './seat-template/seat-template.entity';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
-import { PerformanceModule } from './performance/performance.module';
+import { Booking } from './booking/booking.entity';
 import { BookingModule } from './booking/booking.module';
-import { SeatModule } from './seat/seat.module';
-import { SeatTemplateModule } from './seat-template/seat-template.module';
-
-// import { AppController } from './app.controller';
-// import { AppService } from './app.service';
 import { RedisModule } from './config/redis/redis.module';
+import { Performance } from './performance/performance.entity';
+import { PerformanceModule } from './performance/performance.module';
+import { Seat } from './seat/seat.entity';
+import { SeatModule } from './seat/seat.module';
+import { SeatTemplate } from './seat-template/seat-template.entity';
+import { SeatTemplateModule } from './seat-template/seat-template.module';
+import { User } from './user/user.entity';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
