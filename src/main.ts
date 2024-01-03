@@ -22,7 +22,7 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('/api', app, document);
 
   // 인증 키 파일 경로 설정
   const keyPath = path.join(__dirname, '..', 'key.pem');
