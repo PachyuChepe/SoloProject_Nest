@@ -16,7 +16,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { AdminGuard } from '../auth/guard/admin-auth.guard';
 
-@Controller('seat-templates')
+@Controller('template')
 export class SeatTemplateController {
   constructor(private seatTemplateService: SeatTemplateService) {}
 
@@ -38,14 +38,14 @@ export class SeatTemplateController {
     return { message: '좌석 템플릿 전체 조회 성공', templates };
   }
 
-  @Get(':id')
+  @Get('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard, AdminGuard)
   async getSeatTemplateById(@Param('id') id: number) {
     const template = await this.seatTemplateService.findOne(id);
     return { message: '좌석 템플릿 상세 조회 성공', template };
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard, AdminGuard)
   async updateSeatTemplate(
     @Param('id') id: number,
@@ -58,7 +58,7 @@ export class SeatTemplateController {
     return { message: '좌석 템플릿 수정 완료', template };
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard, AdminGuard)
   async deleteSeatTemplate(@Param('id') id: number) {
     await this.seatTemplateService.remove(id);

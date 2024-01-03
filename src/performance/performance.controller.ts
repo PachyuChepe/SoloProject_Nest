@@ -23,11 +23,11 @@ import { SearchPerformanceDto } from './dto/search-performance.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
-@Controller('performances')
+@Controller('performance')
 export class PerformanceController {
   constructor(private performanceService: PerformanceService) {}
 
-  @Post('create')
+  @Post()
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async createPerformance(
@@ -61,22 +61,22 @@ export class PerformanceController {
     return this.performanceService.findAllPerformances();
   }
 
-  @Get(':id')
+  @Get('/:id')
   async getPerformanceById(@Param('id') id: number) {
     return this.performanceService.findPerformanceById(id);
   }
 
-  @Get(':id/detail')
+  @Get('/detail/:id')
   async getPerformanceDetails(@Param('id') id: number) {
     return this.performanceService.getPerformanceDetails(id);
   }
 
-  @Get('show/search')
+  @Get('/detailed/search')
   async searchPerformances(@Query() searchParams: SearchPerformanceDto) {
     return this.performanceService.searchPerformances(searchParams);
   }
 
-  @Patch(':id')
+  @Patch('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async updatePerformance(
@@ -103,7 +103,7 @@ export class PerformanceController {
     return this.performanceService.updatePerformance(id, updateData, image);
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async deletePerformance(@Param('id') id: number, @Req() req) {
     const user = req.user;

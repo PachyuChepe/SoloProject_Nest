@@ -25,14 +25,14 @@ export class AuthController {
   ) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login')
+  @Post('/login')
   async login(@Body() loginUserDto: LoginUserDto, @Request() req) {
     // LoginUserDto를 사용하여 요청 본문의 유효성 검사
     return this.authService.login(req.user);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('refresh')
+  @Post('/refresh')
   async refreshAccessToken(@Req() req) {
     const user = req.user;
     // const currentTime = Math.floor(Date.now() / 1000);

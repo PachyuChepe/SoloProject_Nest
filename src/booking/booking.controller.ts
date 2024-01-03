@@ -14,7 +14,7 @@ import { CreateBookingDto } from './dto/create-booking.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
-@Controller('bookings')
+@Controller('booking')
 export class BookingController {
   constructor(private bookingService: BookingService) {}
 
@@ -24,20 +24,20 @@ export class BookingController {
     return this.bookingService.createBooking(createBookingDto, req.user);
   }
 
-  @Get('my-bookings')
+  @Get()
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async getUserBookingsWithDetails(@Req() req) {
     return this.bookingService.getUserBookingsWithDetails(req.user.id);
   }
 
-  @Get(':id')
+  @Get('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async getBookingDetails(@Param('id') bookingId: number, @Req() req) {
     const userId = req.user.id;
     return this.bookingService.getBookingDetails(bookingId, userId);
   }
 
-  @Delete(':id/cancel')
+  @Delete('/:id')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
   async cancelBooking(@Param('id') bookingId: number, @Req() req) {
     await this.bookingService.cancelBooking(bookingId, req.user.id);

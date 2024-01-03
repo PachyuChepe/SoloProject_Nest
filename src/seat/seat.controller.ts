@@ -14,11 +14,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 import { AdminGuard } from '../auth/guard/admin-auth.guard';
 
-@Controller('seats')
+@Controller('seat')
 export class SeatController {
   constructor(private seatService: SeatService) {}
 
-  @Post('/create-from-template/performance/:performanceId/template/:templateId')
+  @Post('/performance/:performanceId/template/:templateId')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard, AdminGuard)
   async createSeatsFromTemplate(
     @Param('performanceId') performanceId: number,
@@ -61,9 +61,7 @@ export class SeatController {
     return { message: '좌석 삭제 완료', seatId };
   }
 
-  @Patch(
-    '/update-from-template/performance/:performanceId/template/:templateId',
-  )
+  @Patch('/performance/:performanceId/template/:templateId')
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard, AdminGuard)
   async updateSeatsFromTemplate(
     @Param('performanceId') performanceId: number,

@@ -16,22 +16,21 @@ import { RedisService } from '../config/redis/redis.service';
 import { AuthGuard } from '@nestjs/passport';
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly redisService: RedisService,
   ) {}
 
-  @Post('register')
+  @Post()
   async register(@Body() createUserDto: CreateUserDto) {
     const user = await this.userService.createUser(createUserDto);
     return { message: '회원가입 성공', user };
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  // @UseGuards(JwtAuthGuard)
-  @Get('profile')
+  @Get('/profile')
   async getProfile(@Request() req) {
     // const currentTime = Math.floor(Date.now() / 1000);
     // if (req.user.exp && req.user.exp < currentTime) {
@@ -42,14 +41,14 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  @Patch('update')
+  @Patch()
   async updateUser(@Request() req, @Body() updateData: UpdateUserDto) {
     const user = await this.userService.updateUser(req.user.email, updateData);
     return { message: '사용자 정보 업데이트 성공', user };
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  @Delete('delete')
+  @Delete()
   async deleteUser(@Request() req) {
     await this.userService.deleteUser(req.user.email);
     await this.redisService.removeRefreshToken(req.user.email); // 리프레시 토큰 제거
@@ -57,7 +56,7 @@ export class UserController {
   }
 
   @UseGuards(AuthGuard('jwt'), JwtAuthGuard)
-  @Post('logout')
+  @Post('/logout')
   async logout(@Request() req) {
     await this.redisService.removeRefreshToken(req.user.email); // 리프레시 토큰 제거
     return { message: '로그아웃 성공' };
