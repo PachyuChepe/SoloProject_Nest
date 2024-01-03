@@ -4,11 +4,25 @@ import * as https from 'https';
 import * as path from 'path';
 
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Swagger 설정
+  const options = new DocumentBuilder()
+    .setTitle('공연 예약 API')
+    .setDescription('API description')
+    .setVersion('1.0')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access_token', // 'access-token'은 인증 키 이름으로, Swagger UI에서 사용
+    )
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('api', app, document);
 
   // 인증 키 파일 경로 설정
   const keyPath = path.join(__dirname, '..', 'key.pem');
