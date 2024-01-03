@@ -15,13 +15,15 @@ import {
   UploadedFile,
   BadRequestException,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { PerformanceService } from './performance.service';
-import { CreatePerformanceDto } from './dto/create-performance.dto';
-import { UpdatePerformanceDto } from './dto/update-performance.dto';
-import { SearchPerformanceDto } from './dto/search-performance.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { FileInterceptor } from '@nestjs/platform-express';
+
 import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+
+import { CreatePerformanceDto } from './dto/create-performance.dto';
+import { SearchPerformanceDto } from './dto/search-performance.dto';
+import { UpdatePerformanceDto } from './dto/update-performance.dto';
+import { PerformanceService } from './performance.service';
 
 @Controller('performance')
 export class PerformanceController {

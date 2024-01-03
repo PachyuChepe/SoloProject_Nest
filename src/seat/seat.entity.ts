@@ -1,7 +1,8 @@
 // src/seat/seat.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { Performance } from '../performance/performance.entity';
 import { Booking } from 'src/booking/booking.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+
+import { Performance } from '../performance/performance.entity';
 
 @Entity()
 export class Seat {

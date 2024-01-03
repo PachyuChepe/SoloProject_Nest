@@ -6,10 +6,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Seat } from './seat.entity';
-import { Performance } from '../performance/performance.entity';
 import { SeatTemplate } from 'src/seat-template/seat-template.entity';
+import { Repository } from 'typeorm';
+
+import { Performance } from '../performance/performance.entity';
+
+import { Seat } from './seat.entity';
 
 @Injectable()
 export class SeatService {

@@ -2,11 +2,13 @@
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { PerformanceService } from './performance.service';
+import { SeatTemplate } from 'src/seat-template/seat-template.entity';
+
+import { Seat } from '../seat/seat.entity';
+
 import { PerformanceController } from './performance.controller';
 import { Performance } from './performance.entity';
-import { Seat } from '../seat/seat.entity';
-import { SeatTemplate } from 'src/seat-template/seat-template.entity';
+import { PerformanceService } from './performance.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Performance, Seat, SeatTemplate])],

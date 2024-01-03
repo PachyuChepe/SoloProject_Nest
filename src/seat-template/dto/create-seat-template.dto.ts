@@ -1,6 +1,6 @@
 // src/seat-template/dto/create-seat-template.dto.ts
-import { IsString, IsArray, ValidateNested, IsNumber } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsString, IsArray, ValidateNested, IsNumber } from 'class-validator';
 
 class GradeConfigurationDto {
   @IsString()

@@ -9,12 +9,14 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
-import { SeatTemplateService } from './seat-template.service';
+import { AuthGuard } from '@nestjs/passport';
+
+import { AdminGuard } from '../auth/guard/admin-auth.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+
 import { CreateSeatTemplateDto } from './dto/create-seat-template.dto';
 import { UpdateSeatTemplateDto } from './dto/update-seat-template.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { AdminGuard } from '../auth/guard/admin-auth.guard';
+import { SeatTemplateService } from './seat-template.service';
 
 @Controller('template')
 export class SeatTemplateController {

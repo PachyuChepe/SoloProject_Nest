@@ -359,7 +359,7 @@ Authorization: Bearer {{AccessToken}}
 
 ### 
 # 예약 상세 조회
-GET {{domain}}/booking
+GET {{domain}}/booking/1
 Authorization: Bearer {{AccessToken}}
 
 ### 

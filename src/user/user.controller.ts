@@ -9,12 +9,14 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+import { RedisService } from '../config/redis/redis.service';
+
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
-import { RedisService } from '../config/redis/redis.service';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {

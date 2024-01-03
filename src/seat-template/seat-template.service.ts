@@ -2,9 +2,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { SeatTemplate } from './seat-template.entity';
+
 import { CreateSeatTemplateDto } from './dto/create-seat-template.dto';
 import { UpdateSeatTemplateDto } from './dto/update-seat-template.dto';
+import { SeatTemplate } from './seat-template.entity';
 
 @Injectable()
 export class SeatTemplateService {

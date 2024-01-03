@@ -1,4 +1,5 @@
 // src/seat-template/dto/update-seat-template.dto.ts
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsArray,
@@ -6,7 +7,6 @@ import {
   IsOptional,
   IsNumber,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
 class GradeConfigurationDto {
   @IsString()

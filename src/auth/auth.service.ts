@@ -1,9 +1,10 @@
 // src/auth/auth.service.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserService } from '../user/user.service';
 import * as bcrypt from 'bcrypt';
+
 import { RedisService } from '../config/redis/redis.service';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {

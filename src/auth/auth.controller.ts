@@ -8,13 +8,14 @@ import {
   Req,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { UserService } from '../user/user.service';
-import { RedisService } from '../config/redis/redis.service';
-
-import { LocalAuthGuard } from './guard/local-auth.guard';
-import { LoginUserDto } from './dto/login-user.dto';
 import { AuthGuard } from '@nestjs/passport';
+
+import { RedisService } from '../config/redis/redis.service';
+import { UserService } from '../user/user.service';
+
+import { AuthService } from './auth.service';
+import { LoginUserDto } from './dto/login-user.dto';
+import { LocalAuthGuard } from './guard/local-auth.guard';
 
 @Controller('auth')
 export class AuthController {

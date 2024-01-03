@@ -9,10 +9,12 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+
 import { BookingService } from './booking.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
 
 @Controller('booking')
 export class BookingController {

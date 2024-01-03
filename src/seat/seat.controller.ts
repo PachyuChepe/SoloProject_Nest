@@ -9,10 +9,12 @@ import {
   Get,
   Body,
 } from '@nestjs/common';
-import { SeatService } from './seat.service';
 import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+
 import { AdminGuard } from '../auth/guard/admin-auth.guard';
+import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
+
+import { SeatService } from './seat.service';
 
 @Controller('seat')
 export class SeatController {

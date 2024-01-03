@@ -1,9 +1,10 @@
 // src/auth/strategy/jwt.strategy.ts
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
+
 import { UserService } from '../../user/user.service';
-import { ConfigService } from '@nestjs/config';
 
 // type Done = (error: Error | null, user?: any, info?: any) => void;
 

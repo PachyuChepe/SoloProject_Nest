@@ -1,17 +1,19 @@
 // src/performance/performance.service.ts
-import { ConfigService } from '@nestjs/config';
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Performance } from './performance.entity';
-import { Seat } from 'src/seat/seat.entity';
-import { SeatTemplate } from '../seat-template/seat-template.entity';
-import { CreatePerformanceDto } from './dto/create-performance.dto';
-import { UpdatePerformanceDto } from './dto/update-performance.dto';
-import { SearchPerformanceDto } from './dto/search-performance.dto';
-import * as FormData from 'form-data';
-import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import * as FormData from 'form-data';
+import { Seat } from 'src/seat/seat.entity';
+import { Repository } from 'typeorm';
+import { v4 as uuidv4 } from 'uuid';
+
+import { SeatTemplate } from '../seat-template/seat-template.entity';
+
+import { CreatePerformanceDto } from './dto/create-performance.dto';
+import { SearchPerformanceDto } from './dto/search-performance.dto';
+import { UpdatePerformanceDto } from './dto/update-performance.dto';
+import { Performance } from './performance.entity';
 
 @Injectable()
 export class PerformanceService {

@@ -1,7 +1,7 @@
 // src/performance/performance.entity.ts
 
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-// import { Venue } from '../venue/venue.entity';
+
 import { SeatTemplate } from '../seat-template/seat-template.entity';
 
 @Entity()

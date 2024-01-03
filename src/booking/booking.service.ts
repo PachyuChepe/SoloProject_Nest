@@ -7,10 +7,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Booking } from './booking.entity';
+
+import { Performance } from '../performance/performance.entity';
 import { Seat } from '../seat/seat.entity';
 import { User } from '../user/user.entity';
-import { Performance } from '../performance/performance.entity';
+
+import { Booking } from './booking.entity';
 import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Injectable()
